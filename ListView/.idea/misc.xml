@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android code/ListView/app/src/main/res/layout/activity_main.xml" value="0.359375" />
+        <entry key="..\:/Android code/ListView/app/src/main/res/layout/fruit_item.xml" value="0.359375" />
         <entry key="..\:/ListView/app/src/main/res/layout/activity_main.xml" value="0.17477203647416414" />
         <entry key="..\:/ListView/app/src/main/res/layout/fruit_item.xml" value="0.286231884057971" />
         <entry key="..\:/ListView/app/src/main/res/layout/jimei_item.xml" value="0.286231884057971" />

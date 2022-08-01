@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android code/RecyclerView/app/src/main/res/layout/activity_main.xml" value="0.359375" />
-        <entry key="..\:/Android code/RecyclerView/app/src/main/res/layout/fruit_item.xml" value="0.359375" />
-        <entry key="..\:/RecyclerView/app/src/main/res/layout/fruit_item.xml" value="0.1" />
+        <entry key="..\:/Android code/FragmentTest/app/src/main/res/layout/activity_main.xml" value="0.359375" />
+        <entry key="..\:/Android code/FragmentTest/app/src/main/res/layout/another_right_fragment.xml" value="0.14764492753623187" />
+        <entry key="..\:/Android code/FragmentTest/app/src/main/res/layout/left_feagment.xml" value="0.17426545086119555" />
+        <entry key="..\:/Android code/FragmentTest/app/src/main/res/layout/right_fragment.xml" value="0.35833333333333334" />
       </map>
     </option>
   </component>
