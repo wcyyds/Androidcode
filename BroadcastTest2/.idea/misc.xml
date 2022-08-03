@@ -3,10 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android code/Nine-Path/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2925" />
-        <entry key="..\:/Android code/Nine-Path/app/src/main/res/layout/activity_main.xml" value="0.21505376344086022" />
-        <entry key="..\:/Android code/Nine-Path/app/src/main/res/layout/msg_item.xml" value="0.23255813953488372" />
-        <entry key="..\:/Android code/Nine-Path/app/src/main/res/xml/msg_item.xml" value="0.35833333333333334" />
+        <entry key="..\:/Android code/BroadcastTest2/app/src/main/res/layout/activity_main.xml" value="0.34479166666666666" />
       </map>
     </option>
   </component>

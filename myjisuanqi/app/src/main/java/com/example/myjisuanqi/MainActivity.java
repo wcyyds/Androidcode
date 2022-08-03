@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int zuonumber = 0;
                 int younumber = 0;
                 for(int i = 0; i < sb.length(); i++){
-                    if(sb.charAt(i) == '('){
+                    if(sb.charAt(i) == '('){ 
                         zuonumber++;
                     }
                     if(sb.charAt(i) == ')'){

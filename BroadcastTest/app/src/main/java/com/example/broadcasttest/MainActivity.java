@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.text.Collator;
 /*
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 }
  */
 
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -62,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new
-                        Intent("com.example.broadcasttest.MY_BROADCAST");
-                sendBroadcast(intent);
+                Intent intent = new Intent("com.example.broadcasttest.MY_BROADCAST");
+                intent.setPackage("com.example.broadcasttest");
+                sendOrderedBroadcast(intent, null);
             }
         });
 
@@ -97,3 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+
+
+
