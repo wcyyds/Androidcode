@@ -3,10 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android code/RecyclerView/app/src/main/res/drawable/ic_baseline_chat_bubble_24.xml" value="0.258" />
-        <entry key="..\:/Android code/RecyclerView/app/src/main/res/layout/activity_main.xml" value="0.359375" />
-        <entry key="..\:/Android code/RecyclerView/app/src/main/res/layout/fruit_item.xml" value="0.359375" />
-        <entry key="..\:/RecyclerView/app/src/main/res/layout/fruit_item.xml" value="0.1" />
+        <entry key="..\:/Android code/BroadcastBestPractice/app/src/main/res/layout/LoginActivity.xml" value="0.286231884057971" />
+        <entry key="..\:/Android code/BroadcastBestPractice/app/src/main/res/layout/activity_login.xml" value="0.286231884057971" />
+        <entry key="..\:/Android code/BroadcastBestPractice/app/src/main/res/layout/activity_main.xml" value="0.286231884057971" />
       </map>
     </option>
   </component>

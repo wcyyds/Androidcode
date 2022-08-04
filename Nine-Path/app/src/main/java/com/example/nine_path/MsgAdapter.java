@@ -41,7 +41,8 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.msg_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate
+                (R.layout.msg_item,parent,false);
         return new ViewHolder(view);
     }
 
@@ -55,7 +56,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
         }else if(msg.getType() == Msg.TYPE_SENT){
             holder.leftLayout.setVisibility(View.GONE);
             holder.rightLayout.setVisibility(View.VISIBLE);
-            holder.leftMsg.setText(msg.getContent());
+            holder.rightMsg.setText(msg.getContent());
         }
     }
 
