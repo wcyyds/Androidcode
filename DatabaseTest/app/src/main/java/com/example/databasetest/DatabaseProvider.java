@@ -105,30 +105,66 @@ import java.net.PortUnreachableException;
              case BOOK_ITEM:
                  String bookId = uri.getPathSegments().get(1);
                  updatedRows = db.update("Book", values, "id = ?", new String[]{ bookId });
-
+             case CATEGORY_DIR:
+                 updatedRows = db.update("Category", values, selection, selectionArgs);
+                 break;
+             case CATEGORY_ITEM:
+                 String categorayId = uri.getPathSegments().get(1);
+                 updatedRows = db.update("Category", values, "id = ?", new String[]{ categorayId });
+                 break;
+             default:
+                 break;
          }
-         return 1;
+         return updatedRows;
     }
 
-
-
-    public DatabaseProvider() {
-    }
-
-    @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Implement this to handle requests to delete one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
-
-    }
+     @Override
+     public int delete(Uri uri, String selection, String[] selectionArgs) {
+         // Implement this to handle requests to delete one or more rows.
+         //throw new UnsupportedOperationException("Not yet implemented");
+        //删除数据
+         SQLiteDatabase db = dbHelper.getWritableDatabase();
+         int deletedRows = 0;
+         switch (uriMatcher.match(uri)){
+             case BOOK_DIR:
+                 deletedRows = db.delete("Book",selection, selectionArgs);
+                 break;
+             case BOOK_ITEM:
+                 String bookId = uri.getPathSegments().get(1);
+                 deletedRows = db.delete("Book", "id = ?", new String[]{ bookId });
+                 break;
+             case CATEGORY_DIR:
+                 deletedRows = db.delete("Category",selection, selectionArgs);
+                 break;
+             case  CATEGORY_ITEM:
+                 String categoryId = uri.getPathSegments().get(1);
+                 deletedRows = db.delete("Category", "id = ?", new String[]{ categoryId });
+                 break;
+             default:
+                 break;
+         }
+         return deletedRows;
+     }
 
     @Override
     public String getType(Uri uri) {
         // TODO: Implement this to handle requests for the MIME type of the data
         // at the given URI.
-        throw new UnsupportedOperationException("Not yet implemented");
+        //throw new UnsupportedOperationException("Not yet implemented");
+        switch (uriMatcher.match(uri)){
+            case BOOK_DIR:
+                return "vnd.android.cursor.dir/vnd.com.example.databasetest.provider.book";
+            case BOOK_ITEM:
+                return "vnd.android.cursor.item/vnd.com.example.databasetest.provider.book";
+            case CATEGORY_DIR:
+                return "vnd.android.cursor.dir/vnd.com.example.databasetest.provider.category";
+            case CATEGORY_ITEM:
+                return "vnd.android.cursor.item/vnd.com.example.databasetest.provider.category";
+        }
+        return null;
     }
 
+     public DatabaseProvider() {
+     }
 
-
-}
+ }
