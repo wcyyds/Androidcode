@@ -26,15 +26,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private Button login;
 
-     private Socket socket;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         host = (EditText) findViewById(R.id.host);
+        host.setOnClickListener(this);
         port = (EditText) findViewById(R.id.port);
+        port.setOnClickListener(this);
         name = (EditText) findViewById(R.id.name);
+        name.setOnClickListener(this);
         login = (Button) findViewById(R.id.login);
         login.setOnClickListener(this);
         Log.d("Login", "点击按钮的触发");
@@ -67,21 +68,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.login:
-                String Host = host.getText().toString();
-                String Port = port.toString().toString();
-                String Name = name.toString().toString();
+                String Name = name.toString();
                 Log.d("Login", "在创建线程之前");
-                new Thread(){
-                    {
-                        try {
-                            socket = new Socket(Host, Integer.parseInt(Port));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    };
-                };
                 Log.d("Login", "已经创建了一个线程了");
                 Intent intent = new Intent(LoginActivity.this, RecyclerView.class);
+                intent.putExtra("1",Name);
                 startActivity(intent);
                 break;
         }
