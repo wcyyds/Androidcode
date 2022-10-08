@@ -1,5 +1,7 @@
 package com.example.mytalk02;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,9 +73,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String Name = name.toString();
                 Log.d("Login", "在创建线程之前");
                 Log.d("Login", "已经创建了一个线程了");
-                Intent intent = new Intent(LoginActivity.this, RecyclerView.class);
-                intent.putExtra("1",Name);
-                startActivity(intent);
+                Intent intent1 = new Intent(this, RecyclerView.class);
+                intent1.putExtra("1",Name);
+                startActivity(intent1);
+                Log.d(TAG, "onClick: suoyijiumeiy");
                 break;
         }
     }

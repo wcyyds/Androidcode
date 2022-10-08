@@ -33,12 +33,10 @@ public class Recyclerview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
-        String name = intent.getDataString();
-        //这是上一个活动那个传出来的名字，用来给消息中
-        Log.d(TAG, "onCreate: " + name);
+        String data = intent.getStringExtra("1");
+        Log.d(TAG, "onCreate: " + data);
         initMsgs();
         inputText = (EditText) findViewById(R.id.input_text);
-        send = (Button) findViewById(R.id.send);
         msgRecyclerView = (RecyclerView) findViewById(R.id.msg_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         msgRecyclerView.setLayoutManager(layoutManager);
