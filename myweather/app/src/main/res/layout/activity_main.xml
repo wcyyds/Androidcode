@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/teal_200">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/binf_pic_img"
+        android:scaleType="centerCrop"/>
+
+
+
+
+
+            <ScrollView
+                android:id="@+id/weather_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:overScrollMode="never"
+                android:layout_marginTop="102dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+
+                    <include layout="@layout/now"/>
+                    <include layout="@layout/forecast"/>
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="查看近15日天气"
+                        android:background="@drawable/shape_10dp"
+                        android:id="@+id/look_days_weather_button"/>
+                    <include layout="@layout/main_recycleview"/>
+                    <include layout="@layout/details"/>
+
+
+
+
+                </LinearLayout>
+            </ScrollView>
+
+    <include layout="@layout/title"/>
+
+</FrameLayout>

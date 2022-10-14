@@ -87,11 +87,11 @@ public class ChooseAreaFragment extends Fragment {
                         getActivity().finish();
                     }else if(getActivity() instanceof WeatherAcitivity){
                         WeatherAcitivity acitivity = (WeatherAcitivity) getActivity();
-                        acitivity.drawerLayout.closeDrawer();
+                        acitivity.drawerLayout.closeDrawers();
                         acitivity.swipeRefreshLayout.setRefreshing(true);
                         acitivity.requestWeather(weatherId);
 
-                        
+
                     }
                 }
             }
@@ -206,6 +206,7 @@ public class ChooseAreaFragment extends Fragment {
                 }else if("county".equals(type)){
                     result = Utility.handleCountyResponse(responseText, selectedCity.getId());
                 }
+
                 if(result){
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

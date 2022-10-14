@@ -1,5 +1,6 @@
 package com.example.recycleview30;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.viewholder> 
     @NonNull
     @Override
     public viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d("123", "onCreateViewHolder: creat" + viewType);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fruit_item,parent,false);
         return new viewholder(view);
 
@@ -43,6 +45,7 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.viewholder> 
 
     @Override
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
+        Log.d("456", "onBindViewHolder: bind" + position);
         Fruit fruit = fruitList.get(position);
         holder.fruitname.setText(fruit.getName());
         holder.fruitimage.setImageResource(fruit.getImageid());

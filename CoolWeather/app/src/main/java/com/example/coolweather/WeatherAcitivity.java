@@ -88,6 +88,10 @@ public class WeatherAcitivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         setContentView(R.layout.activity_weather);
 
+
+        
+
+
         bingPicImg = (ImageView) findViewById(R.id.binf_pic_img);
 
         weatherLayout = (ScrollView) findViewById(R.id.weather_layout);
@@ -114,11 +118,13 @@ public class WeatherAcitivity extends AppCompatActivity {
         if (weatherString != null) {
             // 有缓存时直接解析天气数据
             Weather weather = Utility.handleWeatherResponse(weatherString);
+            Log.d("有缓存时就直接解析天气数据", "onCreate: weatherString" + weather);
             mWeatherId = weather.basic.weatherId;
             showWeatherInfo(weather);
         } else {
             // 无缓存时去服务器查询天气
             mWeatherId = getIntent().getStringExtra("weather_id");
+            Log.d("没有缓存的时候去服务器查询天气" , "onCreate: weather_id" + mWeatherId);
             weatherLayout.setVisibility(View.INVISIBLE);
             requestWeather(mWeatherId);
         }
@@ -133,7 +139,7 @@ public class WeatherAcitivity extends AppCompatActivity {
         if(bingPic != null){
             Glide.with(this).load(bingPic).into(bingPicImg);
         }else{
-            loadBingPic();
+            loadBingPic1();
         }
 
         navButton.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +148,6 @@ public class WeatherAcitivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-
     }
 
     /**
@@ -188,7 +193,7 @@ public class WeatherAcitivity extends AppCompatActivity {
                 });
             }
         });
-        loadBingPic();
+        loadBingPic1();
     }
 
 
@@ -222,7 +227,7 @@ public class WeatherAcitivity extends AppCompatActivity {
 //    }
 
 
-    private void loadBingPic() {
+    private void loadBingPic1() {
         // 开启线程来发起网络请求
         new Thread(new Runnable() {
             @Override
@@ -264,10 +269,10 @@ public class WeatherAcitivity extends AppCompatActivity {
     }
     private void showResponse(final String response) {
 
-        final String bingPic = new String(response);
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherAcitivity.this).edit();
-        editor.putString("bing_pic", bingPic);
-        editor.apply();
+//        final String bingPic = new String(response);
+//        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherAcitivity.this).edit();
+//        editor.putString("bing_pic", bingPic);
+//        editor.apply();
 
         runOnUiThread(new Runnable() {
 
