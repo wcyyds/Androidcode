@@ -1,4 +1,4 @@
-package com.example.myweather;
+package com.example.myweather.net;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -10,6 +10,6 @@ public class Search {
     public String zhuangtai;
 
     @SerializedName("location")
-    public List<search_city> search_cities;
+    public List<Search_Location> search_cities;
 
 }

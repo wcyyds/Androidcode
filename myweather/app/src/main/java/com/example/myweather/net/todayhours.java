@@ -1,4 +1,4 @@
-package com.example.myweather;
+package com.example.myweather.net;
 
 import com.google.gson.annotations.SerializedName;
 

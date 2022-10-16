@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,63 +10,310 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/search_edit"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="6"
-            android:id="@+id/search_edit"
-            android:background="@drawable/shape_10dp"/>
+            android:background="@drawable/shape_10dp" />
 
         <Button
+            android:id="@+id/back_choosearea"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:id="@+id/back_choosearea"
-            android:text="取消"/>
+            android:text="取消" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/hot_city"
         android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="热门城市"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:id="@+id/hot_city">
 
-            <Button
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/dingwei"
-                android:text="定位"
-                />
+                android:text="热门城市" />
 
-            <Button
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/beijing"
-                android:text="北京"
-                />
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
 
-            <Button
-                android:layout_width="0dp"
+                <android.widget.Button
+                    android:id="@+id/dingwei"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="定位" />
+
+                <android.widget.Button
+                    android:id="@+id/beijing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="北京" />
+
+                <android.widget.Button
+                    android:id="@+id/shanghai"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="上海" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/sahnghai"
-                android:text="上海"
-                />
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <android.widget.Button
+                    android:id="@+id/guangzhou"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+
+                    android:text="广州" />
+
+                <android.widget.Button
+                    android:id="@+id/shenzhen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="深圳" />
+
+                <android.widget.Button
+                    android:id="@+id/zhuhai"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="珠海" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <android.widget.Button
+                    android:id="@+id/foshan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+
+                    android:text="佛山" />
+
+                <android.widget.Button
+                    android:id="@+id/nanjing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="南京" />
+
+                <android.widget.Button
+                    android:id="@+id/suzhou"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="苏州" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <android.widget.Button
+                    android:id="@+id/xiamen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+
+                    android:text="厦门" />
+
+                <android.widget.Button
+                    android:id="@+id/nanning"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="南宁" />
+
+                <android.widget.Button
+                    android:id="@+id/kunming"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="昆明" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <android.widget.Button
+                    android:id="@+id/chengdu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+
+                    android:text="成都" />
+
+                <android.widget.Button
+                    android:id="@+id/changsha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="长沙" />
+
+                <android.widget.Button
+                    android:id="@+id/fuzhou"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="福州" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <android.widget.Button
+                    android:id="@+id/hangzhou"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+
+                    android:text="杭州" />
+
+                <android.widget.Button
+                    android:id="@+id/wuhan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="武汉" />
+
+                <android.widget.Button
+                    android:id="@+id/qingdao"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="青岛" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <android.widget.Button
+                    android:id="@+id/xian"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+
+                    android:text="西安" />
+
+                <android.widget.Button
+                    android:id="@+id/taiyuan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="太原" />
+
+                <android.widget.Button
+                    android:id="@+id/shijiazhuang"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="石家庄" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <android.widget.Button
+                    android:id="@+id/shenyang"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+
+                    android:text="沈阳" />
+
+                <android.widget.Button
+                    android:id="@+id/chongqing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="重庆" />
+
+                <android.widget.Button
+                    android:id="@+id/tianjin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_puple"
+                    android:text="天津" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/layout_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
     </LinearLayout>
 
 </LinearLayout>
+
+

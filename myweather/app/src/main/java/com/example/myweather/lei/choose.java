@@ -1,5 +1,6 @@
-package com.example.myweather;
+package com.example.myweather.lei;
 
+//这个是选择城市的recycleview
 public class choose {
 
     private String city;

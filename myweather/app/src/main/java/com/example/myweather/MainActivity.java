@@ -2,6 +2,7 @@ package com.example.myweather;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -10,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,8 +31,12 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
+import com.example.myweather.lei.hourAdapter;
+import com.example.myweather.net.Weather;
+import com.example.myweather.net.dayweather;
+import com.example.myweather.lei.timehour;
+import com.example.myweather.net.todayhours;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,20 +45,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
+
+    //创建数据库
+    private MyDatabaseHelper dbHelper;
 
     public LocationClient mLocationClient;
 
@@ -70,12 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView airzhiliang;
 
-    private String GPScity = null;
-
     private LinearLayout forecastLayout;
 
     private List<timehour> timehourList = new ArrayList<>();
-    public timehour timehour123;
 
     private ImageView bingPicImg;
 
@@ -100,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView QIYA;
 
+    private String choose_city;
+
+    URL url ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +112,13 @@ public class MainActivity extends AppCompatActivity {
 
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        //透明状态栏
         getWindow().setStatusBarColor(Color.TRANSPARENT);
+        //透明导航栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
+
+        /*
         //表示同意百度的隐私接口可以使用百度的定位
         LocationClient.setAgreePrivacy(true);
         try {
@@ -117,9 +127,14 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         mLocationClient.registerLocationListener(new MyLocationListener());
+         */
 
         setContentView(R.layout.activity_main);
 
+        dbHelper = new MyDatabaseHelper(this, " BookStore.db", null, 1);
+        dbHelper.getWritableDatabase();
+
+        /*
         //集体申请gps的定位,给了文件和定位的权限,注释了联系人的权限,联系人哪有点问题.
         List<String> permissionList = new ArrayList<>();
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)!=
@@ -147,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("123456", "开始调用定位了" );
             requestLocation();
         }
-
+         */
         //初始化各种控件
        bingPicImg = (ImageView) findViewById(R.id.binf_pic_img);
         Log.d(TAG, "onCreate: 开始进入更新图片");
@@ -158,12 +173,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ChooseArea.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
         Log.d(TAG, "onCreate: 有没有请求网络IP这一步");
-        requestdayweather();
+        requestdayweather("");
 
         weatherlayout = (ScrollView) findViewById(R.id.weather_layout);
         title_city = (TextView) findViewById(R.id.title_city);
@@ -204,30 +219,156 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                Log.d(TAG, "onActivityResult: 进入到了swich语句当中");
+                if(requestCode == 1){
+                    Log.d(TAG, "onActivityResult: 进入到if判断中去了");
+                    choose_city = data.getStringExtra("date_return");
+                    Log.d(TAG, "onActivityResult: " + choose_city);
+                    if(choose_city.equals("")){
+                        ;
+                    }else {
+                        requestdayweather(choose_city);
+                    }
+                }
+                break;
+            default:
+        }
+    }
+
+    //主界面recycleview的更新
     private void inittimehours(Weather weather){
-        for (todayhours todayhours : weather.todayhourslist){
+        for (com.example.myweather.net.todayhours todayhours : weather.todayhourslist){
             timehour timehour123 = new timehour(todayhours.hourtime,todayhours.hourwendu,
-                    R.drawable.wu,todayhours.hourair);
+                    todayhours.hourtianqiimg,todayhours.hourair);
             timehourList.add(timehour123);
         }
-//        for(int i = 0; i < 3; i++){
-//            timehour one = new timehour("13:00", 15, R.drawable.wu,5);
-//            timehourList.add(one);
-//            timehour two = new timehour("13:00", 15, R.drawable.wu,5);
-//            timehourList.add(two);
-//            timehour three = new timehour("13:00", 15, R.drawable.wu,5);
-//            timehourList.add(three);
-//            timehour four = new timehour("13:00", 15, R.drawable.wu,5);
-//            timehourList.add(four);
-//            timehour five = new timehour("13:00", 15, R.drawable.wu,5);
-//            timehourList.add(five);
-//            timehour six = new timehour("13:00", 15, R.drawable.wu,5);
-//            timehourList.add(six);
-//        }
+    }
+
+    //根据请求的网络IP,接口自动返回当前IP的今天的天气情况
+    public void requestdayweather(String address){
+        Log.d(TAG, "requestdayweather: 进入到了requestdayweather");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "run: 开始跑到run里面了");
+                HttpURLConnection connection = null;
+                BufferedReader reader = null;
+                try {
+                    if(address.equals("")){
+                        url = new URL("https://v0.yiketianqi.com/api/worldchina?appid=38383686&appsecret=KWo8NTsJ");
+                    }else{
+                        url = new URL("https://v0.yiketianqi.com/api/worldchina?appid=38383686&appsecret=KWo8NTsJ&cityid=" + address);
+                    }
+                    connection = (HttpURLConnection)  url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(8000);
+                    connection.setReadTimeout(8000);
+                    InputStream in = connection.getInputStream();
+                    //下面对获取到的输入流进行读取
+                    Log.d(TAG, "run: 开始读取了");
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while((line = reader.readLine()) != null){
+                        response.append(line);
+                    }
+                    Log.d(TAG, "run: " + response.toString());
+                    Log.d(TAG, "run: 跑完了");
+                    Gson gson = new Gson();
+                    Weather weather= gson.fromJson(response.toString() , Weather.class);
+                    showdayweather(weather);
+//                    Log.d(TAG, "run111: " + weather.today.wendu);
+//                    Log.d(TAG, "run222: " + weather.today.tianqi);
+//                    Log.d(TAG, "run333: " + weather.today.kongqi);
+//                    Log.d(TAG, "run444: " + weather.today.kongqizhiliang);
+//                    Log.d(TAG, "run555: " + weather.today.tiganwendu);
+//                    Log.d(TAG, "run666: " + weather.today.shidu);
+//                    Log.d(TAG, "run777: " + weather.today.qiya);
+//                    Log.d(TAG, "run888: " + weather.today.fengsu);
+//                    Log.d(TAG, "run999: " + weather.today.fengxiangbiao);
+//                    for(com.example.myweather.net.dayweather dayweather : weather.dayslist){
+//                        Log.d(TAG, "run1: " + dayweather.daysriqi);
+//                        Log.d(TAG, "run2: " + dayweather.richu);
+//                        Log.d(TAG, "run3: " + dayweather.riluo);
+//                        Log.d(TAG, "run4: " + dayweather.daysday.daystianqi);
+//                        Log.d(TAG, "run5: " + dayweather.daysday.dayswendu);
+//                        Log.d(TAG, "run6: " + dayweather.daysday.daysgaishu);
+//                        Log.d(TAG, "run7: " + dayweather.daysday.daysgailv);
+//                    }
+//                    for (todayhours todayhours : weather.todayhourslist){
+//                        Log.d(TAG, "abc:1 " + todayhours.hourtianqi);
+//                        Log.d(TAG, "abc:2 " + todayhours.hourtianqiimg);
+//                        Log.d(TAG, "abc:3 " + todayhours.hourtime);
+//                        Log.d(TAG, "abc:4 " + todayhours.hourair);
+//                        Log.d(TAG, "abc:5 " + todayhours.hourwendu);
+//                    }
+                    inittimehours(weather);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+    }
+
+    //关于主界面的更新都是这个函数
+    public void showdayweather(Weather weather) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String Temperatere = weather.today.wendu;
+                String phrase = weather.today.tianqi;
+                String air = weather.today.kongqi;
+                String air_level = weather.today.kongqizhiliang;
+                String request_cityname = weather.request_city;
+                wendu.setText(Temperatere);
+                tianqi.setText(phrase);
+                sheshidu.setText("℃");
+                airzhiliang.setText("空气 " + air_level +" " + air);
+                title_city.setText(request_cityname);
+
+                int i = 0;
+                forecastLayout.removeAllViews();
+                for(dayweather day123 : weather.dayslist){
+                    if(i < 3) {
+                        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.forecast_item, forecastLayout, false);
+                        TextView datatext = (TextView) view.findViewById(R.id.date_text);
+                        TextView weathertext = (TextView) view.findViewById(R.id.weather_text);
+                        TextView temtext = (TextView) view.findViewById(R.id.tem_text);
+                        weathertext.setText(day123.daysday.daystianqi);
+                        temtext.setText(day123.daysday.dayswendu + "℃");
+                        datatext.setText(day123.daysriqi);
+                        forecastLayout.addView(view);
+                        i++;
+                    }else{
+                        break;
+                    }
+                }
+
+                rise_time.setText("日出" + weather.dayslist.get(0).richu);
+                set_time.setText("日落" + weather.dayslist.get(0).riluo);
+
+                wind_speed.setText(weather.today.fengsu + "级");
+                air_humidity.setText(weather.today.shidu + "%");
+                feels_like.setText(weather.today.tiganwendu + "°");
+                air_altimeter.setText(weather.today.qiya + "hpa");
+                wind_direction.setText(weather.today.fengxiangbiao);
+                SHIDU.setText("湿度");
+                TIGAN.setText("体感");
+                QIYA.setText("气压");
+            }
+        });
     }
 
 
-
+    //这是主界面的背景图片,和下面的三个函数
     private void loadBingPic() {
         // 开启线程来发起网络请求
         new Thread(new Runnable() {
@@ -268,8 +409,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
-    }
 
+    }
     private void showResponse(final String response) {
         runOnUiThread(new Runnable() {
 
@@ -302,173 +443,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-    /**
-     * 根据请求的网络IP,接口自动返回当前IP的今天的天气情况
-     */
-    public void requestdayweather(){
-        Log.d(TAG, "requestdayweather: 进入到了requestdayweather");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "run: 开始跑到run里面了");
-                //这个是OKhttp但是返回不到
-//                OkHttpClient client = new OkHttpClient();
-//                Request request = new Request.Builder()
-//                        .url("https://v0.yiketianqi.com/api/worldchina?appid=38383686&appsecret=KWo8NTsJ")
-//                        .build();
-//                try {
-//                    Response response = client.newCall(request).execute();
-//                    Log.d(TAG, "run: 开始请求网络了");
-//                    String responsData = response.body().toString();
-//                    Log.d(TAG, "run: " + responsData);
-//                    Log.d(TAG, "run: 网络请求完了");
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-
-                //使用的是httpURL
-                //这个使用的是URLhttp,不知道为什么OKhttp用不了
-                HttpURLConnection connection = null;
-                BufferedReader reader = null;
-                try {
-                    URL url = new URL("https://v0.yiketianqi.com/api/worldchina?appid=38383686&appsecret=KWo8NTsJ");
-                    connection = (HttpURLConnection)  url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(8000);
-                    connection.setReadTimeout(8000);
-                    InputStream in = connection.getInputStream();
-                    //下面对获取到的输入流进行读取
-                    Log.d(TAG, "run: 开始读取了");
-                    reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while((line = reader.readLine()) != null){
-                        response.append(line);
-                    }
-                    Log.d(TAG, "run: " + response.toString());
-                    Log.d(TAG, "run: 跑完了");
-                    Gson gson = new Gson();
-                    Weather weather= gson.fromJson(response.toString() , Weather.class);
-                    showdayweather(weather);
-                    Log.d(TAG, "run111: " + weather.today.wendu);
-                    Log.d(TAG, "run222: " + weather.today.tianqi);
-                    Log.d(TAG, "run333: " + weather.today.kongqi);
-                    Log.d(TAG, "run444: " + weather.today.kongqizhiliang);
-                    Log.d(TAG, "run555: " + weather.today.tiganwendu);
-                    Log.d(TAG, "run666: " + weather.today.shidu);
-                    Log.d(TAG, "run777: " + weather.today.qiya);
-                    Log.d(TAG, "run888: " + weather.today.fengsu);
-                    Log.d(TAG, "run999: " + weather.today.fengxiangbiao);
-                    for(dayweather dayweather : weather.dayslist){
-                        Log.d(TAG, "run1: " + dayweather.daysriqi);
-                        Log.d(TAG, "run2: " + dayweather.richu);
-                        Log.d(TAG, "run3: " + dayweather.riluo);
-                        Log.d(TAG, "run4: " + dayweather.daysday.daystianqi);
-                        Log.d(TAG, "run5: " + dayweather.daysday.dayswendu);
-                        Log.d(TAG, "run6: " + dayweather.daysday.daysgaishu);
-                        Log.d(TAG, "run7: " + dayweather.daysday.daysgailv);
-                    }
-                    for (todayhours todayhours : weather.todayhourslist){
-                        Log.d(TAG, "abc:1 " + todayhours.hourtianqi);
-                        Log.d(TAG, "abc:2 " + todayhours.hourtianqiimg);
-                        Log.d(TAG, "abc:3 " + todayhours.hourtime);
-                        Log.d(TAG, "abc:4 " + todayhours.hourair);
-                        Log.d(TAG, "abc:5 " + todayhours.hourwendu);
-                    }
-                    inittimehours(weather);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-//                List<day> dayList = gson.fromJson(, new TypeToken<List<day>>(){}.getType());
-//                Log.d(TAG, "run: 网络请求已经放到了链表中");
-//                for(day day1 : dayList){
-//                    Log.d(TAG, "run: " + day1.getTemperatere());
-//                    Log.d(TAG, "run: " + day1.getPhrase());
-//                    Log.d(TAG, "run: " + day1.getAir());
-//                    Log.d(TAG, "run: " + day1.getAir_level());
-//                }
-            }
-        }).start();
-
-    }
-
-    public void showdayweather(Weather weather) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                String Temperatere = weather.today.wendu;
-                String phrase = weather.today.tianqi;
-                String air = weather.today.kongqi;
-                String air_level = weather.today.kongqizhiliang;
-                wendu.setText(Temperatere);
-                tianqi.setText(phrase);
-                sheshidu.setText("℃");
-                airzhiliang.setText("空气 " + air_level +" " + air);
-                title_city.setText(GPScity);
-
-                int i = 0;
-                forecastLayout.removeAllViews();
-                for(dayweather day123 : weather.dayslist){
-                    if(i < 3) {
-                        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.forecast_item, forecastLayout, false);
-                        TextView datatext = (TextView) view.findViewById(R.id.date_text);
-                        TextView weathertext = (TextView) view.findViewById(R.id.weather_text);
-                        TextView temtext = (TextView) view.findViewById(R.id.tem_text);
-                        weathertext.setText(day123.daysday.daystianqi);
-                        temtext.setText(day123.daysday.dayswendu + "℃");
-                        datatext.setText(day123.daysriqi);
-                        forecastLayout.addView(view);
-                        i++;
-                    }else{
-                        break;
-                    }
-                }
-
-                rise_time.setText("日出" + weather.dayslist.get(0).richu);
-                set_time.setText("日落" + weather.dayslist.get(0).riluo);
-
-                wind_speed.setText(weather.today.fengsu + "级");
-                air_humidity.setText(weather.today.shidu + "%");
-                feels_like.setText(weather.today.tiganwendu + "°");
-                air_altimeter.setText(weather.today.qiya + "hpa");
-                wind_direction.setText(weather.today.fengxiangbiao);
-                SHIDU.setText("湿度");
-                TIGAN.setText("体感");
-                QIYA.setText("气压");
-
-
-            }
-        });
-    }
-
-
-
-
     //开始定位了,.start
+    //下面5个函数都是和百度地图有关的,现在都没有用了
     private void requestLocation(){
         initLocation();
         Log.d("123456", "开始定位了");
         mLocationClient.start();
     }
-
     private void initLocation(){
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
         option.setIsNeedAddress(true);
         mLocationClient.setLocOption(option);
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy: 活动关闭了了了了了了了了了了了了了了了了了");
         mLocationClient.stop();
     }
-
-
     //申请权限,没有权限的不给你过,直接关闭应用
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permission, int[] grantResults) {
@@ -492,10 +485,7 @@ public class MainActivity extends AppCompatActivity {
             default:
         }
     }
-
-    /**
-     *获取gps的信息给显示本地抬头的城市
-     */
+    //获取gps的信息给显示本地抬头的城市
     public class MyLocationListener implements BDLocationListener {
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
@@ -514,7 +504,6 @@ public class MainActivity extends AppCompatActivity {
                     currentPosition.append("所有省份:").append(bdLocation.getProvince()).append("\n");
                     currentPosition.append("定位方式: ");
             Log.d("MyLocationListener", "获得的gps信息: " + currentPosition);
-            GPScity = bdLocation.getCity() + bdLocation.getDistrict();
         }
         public void onConnectHotSpotMessage(String s, int t){
 

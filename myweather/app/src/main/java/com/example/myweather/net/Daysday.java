@@ -1,8 +1,8 @@
-package com.example.myweather;
+package com.example.myweather.net;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Daysnight {
+public class Daysday {
 
     @SerializedName("phrase")
     public String daystianqi;
@@ -17,5 +17,4 @@ public class Daysnight {
     //降雨概率
     @SerializedName("precipPct")
     public String daysgailv;
-
 }
