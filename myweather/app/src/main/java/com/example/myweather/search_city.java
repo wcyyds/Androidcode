@@ -134,34 +134,26 @@ public class search_city extends AppCompatActivity implements View.OnClickListen
         chongqing.setOnClickListener(this);
         Button tianjin = (Button) findViewById(R.id.tianjin);
         tianjin.setOnClickListener(this);
-
-
-
-
+        //获得数据库的对象
         dbHelper = new MyDatabaseHelper(this, " BookStore.db", null, 1);
-
 
         listView = (ListView) findViewById(R.id.list_view);
         adapter = new ArrayAdapter<String>(
                 search_city.this, android.R.layout.simple_list_item_1,arr);
         listView.setAdapter(adapter);
+        //listview的点击事件
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @SuppressLint("Range")
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 now1 = arr1.get(i);
                 now2 = arr2.get(i);
-                Log.d(TAG, "onItemClick: 这是listview的点击事件");
-                //这里就是把获得到的城市id,弄到choose里面然后
-                //点击就是添加,这个就只能搜索,然后添加到本地内存上面去,然后返回到上一个活动上面,上一个可以点击很多东西,然后点击之后就返回去
-                //然后把本地存储的东西读取出来,记得还要查询一下
-                //然后返回到主的函数里面去
-                //data.add(now1);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
-                Boolean chachong = false;
                 //先查询所有的数据要查重
+                Boolean chachong = false;
                 Log.d(TAG, "onItemClick: 看看arr1是什么" + arr1);
-                Cursor cursor = db.query("Book", null,null,null,null,null,null);
+                Cursor cursor = db.query("Book", null,null,
+                        null,null,null,null);
                 if(cursor.moveToFirst()){
                     Log.d(TAG, "onItemClick: 进入大的if判断");
                     do {
@@ -179,6 +171,7 @@ public class search_city extends AppCompatActivity implements View.OnClickListen
 
                 Log.d(TAG, "onItemClick: 来到了if判读语句当中");
                 if(chachong){
+                    //chachong是真,说明数据已经在数据中已经存在过了,不需要进行添加数据了
                     Toast.makeText(search_city.this, "你已经添加过了", Toast.LENGTH_SHORT).show();
                 }else{
                     ContentValues values = new ContentValues();
@@ -199,7 +192,6 @@ public class search_city extends AppCompatActivity implements View.OnClickListen
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             //这个是对输入中的实时监听,第一个参数是实时的输入的字符串
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -234,7 +226,7 @@ public class search_city extends AppCompatActivity implements View.OnClickListen
 
 
     /**
-     * 根据请求的网络IP,接口自动返回当前IP的今天的天气情况
+     * 根据请求的网络IP,接口自动返回当前字符串的模糊搜索
      */
     public void requestdayweather(String search){
         Log.d(TAG, "requestdayweather: 进入到了requestdayweather");

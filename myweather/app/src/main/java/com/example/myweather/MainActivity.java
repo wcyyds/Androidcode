@@ -367,7 +367,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     //这是主界面的背景图片,和下面的三个函数
     private void loadBingPic() {
         // 开启线程来发起网络请求
