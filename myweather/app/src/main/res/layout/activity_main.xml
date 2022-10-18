@@ -10,42 +10,24 @@
         android:id="@+id/binf_pic_img"
         android:scaleType="centerCrop"/>
 
+    <Button
+        android:id="@+id/more"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/ic_baseline_arrow_back_24"
+        />
 
 
 
-
-            <ScrollView
-                android:id="@+id/weather_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:overScrollMode="never"
-                android:layout_marginTop="102dp">
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewpager">
+    </androidx.viewpager.widget.ViewPager>
 
 
-                    <include layout="@layout/now"/>
-                    <include layout="@layout/forecast"/>
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="查看近15日天气"
-                        android:background="@drawable/shape_10dp"
-                        android:id="@+id/look_days_weather_button"/>
-                    <include layout="@layout/main_recycleview"/>
-                    <include layout="@layout/details"/>
-
-
-
-
-                </LinearLayout>
-            </ScrollView>
-
-    <include layout="@layout/title"/>
 
 </FrameLayout>

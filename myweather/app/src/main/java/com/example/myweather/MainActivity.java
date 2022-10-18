@@ -8,10 +8,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,51 +64,16 @@ public class MainActivity extends AppCompatActivity {
     //创建数据库
     private MyDatabaseHelper dbHelper;
 
-    public LocationClient mLocationClient;
-
-    private ScrollView weatherlayout;
-
-    //这四个是从day中获得到的天气
-    private TextView title_city;
-
-    private TextView wendu;
-
-    private TextView tianqi;
-
-    private TextView sheshidu;
-
-    private TextView airzhiliang;
-
-    private LinearLayout forecastLayout;
-
-    private List<timehour> timehourList = new ArrayList<>();
 
     private ImageView bingPicImg;
 
-    //detail
-    private TextView rise_time;
-
-    private TextView set_time;
-
-    private TextView wind_speed;
-
-    private TextView wind_direction;
-
-    private  TextView air_humidity;
-
-    private TextView feels_like;
-
-    private TextView air_altimeter;
-
-    private  TextView SHIDU;
-
-    private TextView TIGAN;
-
-    private TextView QIYA;
-
-    private String choose_city;
+    ViewPagerAdapter viewPagerAdapter;
 
     URL url ;
+
+    private List<Choose_city_list> main_city_list = new ArrayList<>();
+
+    private List<Weather> weathers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
         dbHelper = new MyDatabaseHelper(this, " BookStore.db", null, 1);
         dbHelper.getWritableDatabase();
+
+
+
 
         /*
         //集体申请gps的定位,给了文件和定位的权限,注释了联系人的权限,联系人哪有点问题.
@@ -173,81 +145,94 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ChooseArea.class);
-                startActivityForResult(intent, 1);
+                startActivity(intent);
+                finish();
             }
         });
 
-        Log.d(TAG, "onCreate: 有没有请求网络IP这一步");
-        requestdayweather("");
 
-        weatherlayout = (ScrollView) findViewById(R.id.weather_layout);
-        title_city = (TextView) findViewById(R.id.title_city);
-        wendu = (TextView) findViewById(R.id.wendu);
-        tianqi = (TextView) findViewById(R.id.tianqi);
-        sheshidu = (TextView) findViewById(R.id.sheshidu);
-        airzhiliang = (TextView) findViewById(R.id.airzhiliang);
 
-        forecastLayout = (LinearLayout) findViewById(R.id.forecast_layout);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.main_recycleview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
-        hourAdapter hourAdapter = new hourAdapter(timehourList);
-        recyclerView.setAdapter(hourAdapter);
 
-        //detail
-        rise_time = (TextView) findViewById(R.id.sunrise_time) ;
-
-        set_time = (TextView) findViewById(R.id.sunset_time) ;
-
-        wind_speed = (TextView) findViewById(R.id.WindSpeed) ;
-
-        air_humidity = (TextView) findViewById(R.id.Humidity) ;
-
-        feels_like = (TextView) findViewById(R.id.FeelsLike) ;
-
-        air_altimeter = (TextView) findViewById(R.id.Altimeter) ;
-
-        wind_direction = (TextView) findViewById(R.id.WindDirCompass) ;
-
-        SHIDU = (TextView) findViewById(R.id.shidu);
-
-        TIGAN = (TextView) findViewById(R.id.tigan);
-
-        QIYA = (TextView) findViewById(R.id.qiya);
+//        weatherlayout = (ScrollView) findViewById(R.id.weather_layout);
+//        title_city = (TextView) findViewById(R.id.title_city);
+//        wendu = (TextView) findViewById(R.id.wendu);
+//        tianqi = (TextView) findViewById(R.id.tianqi);
+//        sheshidu = (TextView) findViewById(R.id.sheshidu);
+//        airzhiliang = (TextView) findViewById(R.id.airzhiliang);
+//
+//        forecastLayout = (LinearLayout) findViewById(R.id.forecast_layout);
+//
+//
+//
+//        //detail
+//        rise_time = (TextView) findViewById(R.id.sunrise_time) ;
+//
+//        set_time = (TextView) findViewById(R.id.sunset_time) ;
+//
+//        wind_speed = (TextView) findViewById(R.id.WindSpeed) ;
+//
+//        air_humidity = (TextView) findViewById(R.id.Humidity) ;
+//
+//        feels_like = (TextView) findViewById(R.id.FeelsLike) ;
+//
+//        air_altimeter = (TextView) findViewById(R.id.Altimeter) ;
+//
+//        wind_direction = (TextView) findViewById(R.id.WindDirCompass) ;
+//
+//        SHIDU = (TextView) findViewById(R.id.shidu);
+//
+//        TIGAN = (TextView) findViewById(R.id.tigan);
+//
+//        QIYA = (TextView) findViewById(R.id.qiya);
 
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 1:
-                Log.d(TAG, "onActivityResult: 进入到了swich语句当中");
-                if(requestCode == 1){
-                    Log.d(TAG, "onActivityResult: 进入到if判断中去了");
-                    choose_city = data.getStringExtra("date_return");
-                    Log.d(TAG, "onActivityResult: " + choose_city);
-                    if(choose_city.equals("")){
-                        ;
-                    }else {
-                        requestdayweather(choose_city);
-                    }
-                }
-                break;
-            default:
+    protected void onStart() {
+        super.onStart();
+
+        //先给链表中添加一个空的城市,即当前定位的城市,是不能删除的
+        main_city_list.clear();
+        Choose_city_list kong  = new Choose_city_list("","");
+        main_city_list.add(kong);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        //查询book表中的所有数据
+        Cursor cursor = db.query("Book", null, null,
+                null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") String SQL_cityname = cursor.getString(cursor.getColumnIndex("city"));
+                @SuppressLint("Range") String SQL_cityId = cursor.getString(cursor.getColumnIndex("cityid"));
+                Log.d(TAG, "onCreate: city  " + SQL_cityname);
+                Choose_city_list shujuku = new Choose_city_list(SQL_cityId,SQL_cityname);
+                main_city_list.add(shujuku);
+            } while (cursor.moveToNext());
         }
+        //现在main_city_list中已经有了数据库中所有的数据了
+
+        Log.d(TAG, "onStart: 把数据库中的东西全部读取完成了");
+        for(Choose_city_list choose12 : main_city_list){
+            Log.d(TAG, "onStart: 开始对网络进行请求,对weather链表进行赋值");
+            requestdayweather(choose12.getCity_ID());
+        }
+
+        int i = 0;
+        while(main_city_list.size() != weathers.size()){
+            ;
+        }
+        for (Weather weather : weathers){
+            Log.d(TAG, "onStart: -------------------------------" + weather.request_city);
+        }
+
+
+
+        ViewPager vp = (ViewPager) findViewById(R.id.viewpager);
+        viewPagerAdapter = new ViewPagerAdapter(MainActivity.this, weathers);
+        vp.setAdapter(viewPagerAdapter);
+
     }
 
-    //主界面recycleview的更新
-    private void inittimehours(Weather weather){
-        for (com.example.myweather.net.todayhours todayhours : weather.todayhourslist){
-            timehour timehour123 = new timehour(todayhours.hourtime,todayhours.hourwendu,
-                    todayhours.hourtianqiimg,todayhours.hourair);
-            timehourList.add(timehour123);
-        }
-    }
 
     //根据请求的网络IP,接口自动返回当前IP的今天的天气情况
     public void requestdayweather(String address){
@@ -281,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "run: 跑完了");
                     Gson gson = new Gson();
                     Weather weather= gson.fromJson(response.toString() , Weather.class);
-                    showdayweather(weather);
+                    weathers.add(weather);
 //                    Log.d(TAG, "run111: " + weather.today.wendu);
 //                    Log.d(TAG, "run222: " + weather.today.tianqi);
 //                    Log.d(TAG, "run333: " + weather.today.kongqi);
@@ -307,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.d(TAG, "abc:4 " + todayhours.hourair);
 //                        Log.d(TAG, "abc:5 " + todayhours.hourwendu);
 //                    }
-                    inittimehours(weather);
+
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -317,6 +302,10 @@ public class MainActivity extends AppCompatActivity {
         }).start();
 
     }
+
+    /*
+
+
 
     //关于主界面的更新都是这个函数
     public void showdayweather(Weather weather) {
@@ -367,6 +356,52 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //这是主界面的背景图片,和下面的三个函数
     private void loadBingPic() {
         // 开启线程来发起网络请求
@@ -382,7 +417,6 @@ public class MainActivity extends AppCompatActivity {
                     connection.setConnectTimeout(8000);
                     connection.setReadTimeout(8000);
                     InputStream in = connection.getInputStream();
-                    Log.d(TAG, "run:开始对获取的输入流进行读取");
                     // 下面对获取到的输入流进行读取
                     reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder response = new StringBuilder();
@@ -418,21 +452,17 @@ public class MainActivity extends AppCompatActivity {
                 // 在这里进行UI操作，将结果显示到界面上
                 Glide.with(MainActivity.this).load(response).into(bingPicImg);
                 //  text.setText(response);
-                Log.i("123",response);
-                Log.d("213", "run: 跑到这里了" + response);
             }
         });
     }
     private void parseJSONWithJSONObject(String jsonData) {
         try {
-            Log.d(TAG, "parseJSONWithJSONObject: 开始对网址信息进行选取和拼接");
             JSONArray jsonArray = new JSONObject(jsonData).getJSONArray("images");
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String url = jsonObject.getString("url");
 
-                Log.d("MainActivity", "url is " + url);
                 String url1="http://cn.bing.com"+url;
                 showResponse(url1);
             }
@@ -442,6 +472,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /*
     //开始定位了,.start
     //下面5个函数都是和百度地图有关的,现在都没有用了
     private void requestLocation(){
@@ -508,6 +539,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+     */
 
 
 }

@@ -67,12 +67,10 @@ public class ChooseArea extends AppCompatActivity {
         back_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.putExtra("date_return", "");
-                Log.d(TAG, "onItemClick: 他开始传入要打开的值了");
-                setResult(RESULT_OK, intent);
                 choose_city_list.clear();
                 choose_city_list1.clear();
+                Intent intent = new Intent(ChooseArea.this, MainActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -116,14 +114,13 @@ public class ChooseArea extends AppCompatActivity {
                 if(resultCode == 2){
                     Log.d(TAG, "8888: 进入到if判断中去了");
                     String choose_city = data.getStringExtra("date_return");
-                    Log.d(TAG, "8888: " + choose_city);
 
-                    Intent intent = new Intent();
-                    intent.putExtra("date_return", choose_city);
-                    Log.d(TAG, "8888: 他开始传入要打开的值了");
-                    setResult(RESULT_OK, intent);
+                    //
+                    Log.d(TAG, "8888: " + choose_city);
                     choose_city_list.clear();
                     choose_city_list1.clear();
+                    Intent intent = new Intent(ChooseArea.this, MainActivity.class);
+                    startActivity(intent);
                     finish();
                 }
                 break;
@@ -133,12 +130,10 @@ public class ChooseArea extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra("date_return", "");
-        Log.d(TAG, "onItemClick: 他开始传入要打开的值了");
-        setResult(RESULT_OK, intent);
         choose_city_list.clear();
         choose_city_list1.clear();
+        Intent intent = new Intent(ChooseArea.this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
 
@@ -171,13 +166,10 @@ public class ChooseArea extends AppCompatActivity {
         listView_choose.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String city_dianji = choose_city_list.get(i).getCity_ID();
-                Intent intent = new Intent();
-                intent.putExtra("date_return", city_dianji);
-                Log.d(TAG, "onItemClick: 他开始传入要打开的值了");
-                setResult(RESULT_OK, intent);
                 choose_city_list.clear();
                 choose_city_list1.clear();
+                Intent intent = new Intent(ChooseArea.this, MainActivity.class);
+                startActivity(intent);
                 finish();
             }
         });

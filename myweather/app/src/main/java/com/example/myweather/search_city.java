@@ -62,6 +62,7 @@ public class search_city extends AppCompatActivity implements View.OnClickListen
     //private List<String> data = new ArrayList<>();
 
     private Intent intent_choose = new Intent();
+    SQLiteDatabase db;
 
 
 
@@ -148,7 +149,7 @@ public class search_city extends AppCompatActivity implements View.OnClickListen
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 now1 = arr1.get(i);
                 now2 = arr2.get(i);
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                db = dbHelper.getWritableDatabase();
                 //先查询所有的数据要查重
                 Boolean chachong = false;
                 Log.d(TAG, "onItemClick: 看看arr1是什么" + arr1);
@@ -330,9 +331,12 @@ public class search_city extends AppCompatActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.beijing:
-                intent_choose.putExtra("date_return", "101010100");
+                ContentValues values = new ContentValues();
+                //开始添加数据1
+                values.put("cityid", "101010100");
+                values.put("city", "北京");
+                db.insert("Book", null, values);
                 Log.d(TAG, "onItemClick: 他开始传入要打开的值了");
-                setResult(2, intent_choose);
                 finish();
                 break;
             case R.id.shanghai:
