@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmenthomepage">
+
+    <fragment
+        android:id="@+id/fragmenthomepage"
+        android:name="com.example.xianyu.FragmentHomepage"
+        android:label="fragmenthomepage"
+        tools:layout="@layout/fragment_homepage">
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmenshall"
+        android:name="com.example.xianyu.FragmentShall"
+        android:label="fragmenshall"
+        tools:layout="@layout/fragment_shall"/>
+
+    <fragment
+        android:id="@+id/fragmentsell"
+        android:name="com.example.xianyu.FragmentSell"
+        android:label="fragmentsell"
+        tools:layout="@layout/fragment_sell"/>
+
+    <fragment
+        android:id="@+id/fragmentmessage"
+        android:name="com.example.xianyu.FragmentMessage"
+        android:label="fragmentmessage"
+        tools:layout="@layout/fragment_message"/>
+
+    <fragment
+        android:id="@+id/fragmentmy"
+        android:name="com.example.xianyu.FragmentMy"
+        android:label="fragmentmy"
+        tools:layout="@layout/fragment_my"/>
+
+</navigation>

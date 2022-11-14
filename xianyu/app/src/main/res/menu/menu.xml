@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/fragmenthomepage"
+        android:icon="@drawable/homepage"
+        android:title="闲鱼" />
+    <item
+        android:id="@+id/fragmenshall"
+        android:icon="@drawable/shall"
+        android:title="会玩" />
+    <item
+        android:id="@+id/fragmentsell"
+        android:icon="@drawable/sell"
+        android:title="出闲置" />
+    <item
+        android:id="@+id/fragmentmessage"
+        android:icon="@drawable/message"
+        android:title="消息" />
+    <item
+        android:id="@+id/fragmentmy"
+        android:icon="@drawable/my"
+        android:title="我的" />
+</menu>

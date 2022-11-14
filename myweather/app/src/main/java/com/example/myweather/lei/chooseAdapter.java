@@ -44,9 +44,15 @@ public class chooseAdapter extends RecyclerView.Adapter<chooseAdapter.ViewHolder
     @NonNull
     @Override
     public chooseAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.choose_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
     }
 
     @Override
