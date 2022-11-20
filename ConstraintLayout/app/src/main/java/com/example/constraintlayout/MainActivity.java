@@ -10,11 +10,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     ViewPager2 viewPager2;
     TabLayout tabLayout;
+    AppBarLayout appBarLayout;
 
     private List<Fragment> fragments = new ArrayList<>();
     private List<String> tablayoutdata = new ArrayList<>();
@@ -44,6 +47,22 @@ public class MainActivity extends AppCompatActivity {
             if(actionBar != null){
                 actionBar.hide();
             }
+
+            //现在是找到了现在的折叠的东西,1111是展开,2222是折叠,3333是其他(就是在中间的到时候)
+           appBarLayout =  findViewById(R.id.app_bar);
+            appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeedListener() {
+                @Override
+                public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                    // 展开状态
+                    if (state == State.EXPANDED) {
+                        Log.d(TAG, "onStateChanged: 现在是11111");
+                    } else if (state == State.COLLAPSED) {
+                        Log.d(TAG, "onStateChanged: 现在是22222");
+                    } else {
+                        Log.d(TAG, "onStateChanged: 现在是33333");
+                    }
+                }
+            });
 
 
             initPage();

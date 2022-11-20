@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,10 +87,9 @@ public class viewpager2_1_1_many extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initFruits();
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-
-        recyclerView.setLayoutManager(layoutManager);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_viewpager_many);
+        StaggeredGridLayoutManager layoutManage = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManage);
         FruitAdapter fruitAdapter = new FruitAdapter(fruitList);
         recyclerView.setAdapter(fruitAdapter);
 
@@ -99,35 +99,49 @@ public class viewpager2_1_1_many extends Fragment {
     private void initFruits(){
         Log.d(TAG, "initFruits: ");
         for(int i = 0; i < 3; i++){
-            Fruit apple = new Fruit("WANGCHENYANG",R.drawable.apple);
+            Fruit apple = new Fruit(R.drawable.fruit_1,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
+                    "999999999999",R.drawable.sell_1,"王昊阳");
             fruitList.add(apple);
-            Fruit beer = new Fruit("beer",R.drawable.beer);
-            fruitList.add(beer);
-            Fruit bread = new Fruit("bread",R.drawable.bread);
-            fruitList.add(bread);
-            Fruit burger = new Fruit("burger",R.drawable.burger);
+            Fruit beer = new Fruit(R.drawable.fruit_2,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
+                    "99999999",R.drawable.sell_2,"王昊阳");
+            Fruit bread1 = new Fruit(R.drawable.fruit_3,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈呵哈哈哈哈哈哈哈",
+                    "99999999",R.drawable.sell_3,"王昊阳");
+            fruitList.add(bread1);
+            Fruit burger = new Fruit(R.drawable.fruit_4,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈呵呵哈哈哈哈哈哈哈",
+                    "99999999",R.drawable.sell_4,"王昊阳");
             fruitList.add(burger);
-            Fruit cake = new Fruit("cake",R.drawable.cake);
+            Fruit cake = new Fruit(R.drawable.fruit_5,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
+                    "99999999",R.drawable.sell_5,"王昊阳");
             fruitList.add(cake);
-            Fruit cheesecake = new Fruit("cheesecake",R.drawable.cheesecake);
+            Fruit cheesecake = new Fruit(R.drawable.fruit_6,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈呵哈哈哈哈哈哈哈",
+                    "99999",R.drawable.sell_6,"王昊阳");
             fruitList.add(cheesecake);
-            Fruit cherry = new Fruit("cherry",R.drawable.cherry);
+            Fruit cherry = new Fruit(R.drawable.fruit_7,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
+                    "99999",R.drawable.sell_7,"王昊阳");
             fruitList.add(cherry);
-            Fruit chips = new Fruit("chips",R.drawable.chips);
+            Fruit chips = new Fruit(R.drawable.fruit_8,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
+                    "99999999",R.drawable.sell_8,"王昊阳");
             fruitList.add(chips);
-            Fruit kiwi = new Fruit("kiwi",R.drawable.kiwi);
+            Fruit kiwi = new Fruit(R.drawable.fruit_9,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
+                    "9999",R.drawable.sell_9,"王昊阳");
             fruitList.add(kiwi);
-            Fruit lemon = new Fruit("lemon",R.drawable.lemon);
+            Fruit lemon = new Fruit(R.drawable.fruit_10,"哈哈哈哈哈哈哈哈哈哈",
+                    "999999",R.drawable.sell_10,"王昊阳");
             fruitList.add(lemon);
-            Fruit pear = new Fruit("pear",R.drawable.pear);
+            Fruit pear = new Fruit(R.drawable.fruit_11,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈呵呵哈哈哈哈哈哈哈",
+                    "999999999",R.drawable.sell_1,"王昊阳");
             fruitList.add(pear);
-            Fruit pineapple = new Fruit("pineapple",R.drawable.pineapple);
+            Fruit pineapple = new Fruit(R.drawable.fruit_12,"哈哈哈哈哈",
+                    "999999999",R.drawable.sell_2,"王昊阳");
             fruitList.add(pineapple);
-            Fruit strawberry = new Fruit("strawberry",R.drawable.strawberry);
+            Fruit strawberry = new Fruit(R.drawable.fruit_13,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
+                    "99",R.drawable.sell_3,"王昊阳");
             fruitList.add(strawberry);
-            Fruit tea = new Fruit("tea",R.drawable.tea);
+            Fruit tea = new Fruit(R.drawable.fruit_14,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
+                    "999",R.drawable.sell_4,"王昊阳");
             fruitList.add(tea);
-            Fruit watermelon = new Fruit("watermelon",R.drawable.watermelon);
+            Fruit watermelon = new Fruit(R.drawable.fruit_11,"哈哈哈哈哈",
+                    "999999",R.drawable.sell_5,"王昊阳");
             fruitList.add(watermelon);
         }
     }

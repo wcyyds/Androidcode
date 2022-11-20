@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Fragment> fragments = new ArrayList<>();
     private List<String> tablayoutdata = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setItemIconTintList(null);
+
 
         //获取navController
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/background_grue1"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:background="@drawable/background_grey"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/background_grue2"
+        app:layout_constraintHorizontal_weight="1"
+        tools:ignore="InvalidId" />
+
+    <TextView
+        android:id="@+id/xianyujishi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="闲鱼集市"
+        android:textSize="18dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="@id/background_grue1"
+        app:layout_constraintStart_toStartOf="@id/background_grue1"/>
+
+    <TextView
+        android:id="@+id/zhekouhaowu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="折扣好物 | 低价捡漏"
+        android:textSize="12dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#E7752C"
+        app:layout_constraintTop_toBottomOf="@id/xianyujishi"
+        app:layout_constraintStart_toStartOf="@id/xianyujishi"/>
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/shoujiyanxuan"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/homepage_jishi_one"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintTop_toBottomOf="@id/zhekouhaowu"
+        app:layout_constraintStart_toStartOf="@id/background_grue1"
+        app:layout_constraintEnd_toStartOf="@id/baozhenshepin"
+        app:layout_constraintBottom_toTopOf="@id/wenwanzhubao"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="手机严选"
+        android:textColor="#B2B2B2"
+        app:layout_constraintBottom_toBottomOf="@id/shoujiyanxuan"
+        app:layout_constraintStart_toStartOf="@id/shoujiyanxuan"
+        app:layout_constraintEnd_toEndOf="@id/shoujiyanxuan"/>
+
+    <ImageView
+        android:id="@+id/baozhenshepin"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/homepage_jishi_two"
+        app:layout_constraintTop_toBottomOf="@id/zhekouhaowu"
+        app:layout_constraintStart_toEndOf="@id/shoujiyanxuan"
+        app:layout_constraintEnd_toEndOf="@id/background_grue1"
+        app:layout_constraintBottom_toBottomOf="@id/shoujiyanxuan"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="保真奢品"
+        android:textColor="#B2B2B2"
+        app:layout_constraintBottom_toBottomOf="@id/baozhenshepin"
+        app:layout_constraintStart_toStartOf="@id/baozhenshepin"
+        app:layout_constraintEnd_toEndOf="@id/baozhenshepin"/>
+
+    <ImageView
+        android:id="@+id/wenwanzhubao"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/homepage_jishi_three"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintTop_toBottomOf="@id/shoujiyanxuan"
+        app:layout_constraintStart_toStartOf="@id/background_grue1"
+        app:layout_constraintEnd_toStartOf="@id/xianliangchaopin"
+        app:layout_constraintBottom_toBottomOf="@id/background_grue1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="文玩珠宝"
+        android:textColor="#B2B2B2"
+        app:layout_constraintBottom_toBottomOf="@id/wenwanzhubao"
+        app:layout_constraintStart_toStartOf="@id/shoujiyanxuan"
+        app:layout_constraintEnd_toEndOf="@id/shoujiyanxuan"/>
+
+    <ImageView
+        android:id="@+id/xianliangchaopin"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/humepage_jishi_four"
+        app:layout_constraintTop_toTopOf="@id/wenwanzhubao"
+        app:layout_constraintStart_toEndOf="@id/wenwanzhubao"
+        app:layout_constraintEnd_toEndOf="@id/background_grue1"
+        app:layout_constraintBottom_toBottomOf="@id/wenwanzhubao"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="限量潮品"
+        android:textColor="#B2B2B2"
+        app:layout_constraintBottom_toBottomOf="@id/xianliangchaopin"
+        app:layout_constraintStart_toStartOf="@id/baozhenshepin"
+        app:layout_constraintEnd_toEndOf="@id/baozhenshepin"/>
+
+    <ImageView
+        android:id="@+id/background_grue2"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/background_grue1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/jiuwuhuanli"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="旧物换礼"
+        android:textSize="18dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="@id/background_grue2"
+        app:layout_constraintStart_toStartOf="@id/background_grue2"/>
+
+    <TextView
+        android:id="@+id/yong11kgyifuhuanleyechunchouzhi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="用11kg衣服换了雅纯抽纸"
+        android:textSize="12dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@id/jiuwuhuanli"
+        app:layout_constraintStart_toStartOf="@id/jiuwuhuanli"/>
+
+
+
+
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/jinsheng26jian"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/homepage_newold_one"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintTop_toBottomOf="@id/yong11kgyifuhuanleyechunchouzhi"
+        app:layout_constraintStart_toStartOf="@id/background_grue2"
+        app:layout_constraintEnd_toStartOf="@id/yihuan"
+        app:layout_constraintBottom_toTopOf="@id/wenwanzhubao"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="仅剩26件"
+        android:textColor="#B2B2B2"
+        app:layout_constraintBottom_toBottomOf="@id/jinsheng26jian"
+        app:layout_constraintStart_toStartOf="@id/jinsheng26jian"
+        app:layout_constraintEnd_toEndOf="@id/jinsheng26jian"/>
+
+    <ImageView
+        android:id="@+id/yihuan"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/homepage_newold_two"
+        app:layout_constraintTop_toBottomOf="@id/yong11kgyifuhuanleyechunchouzhi"
+        app:layout_constraintStart_toEndOf="@id/jinsheng26jian"
+        app:layout_constraintEnd_toEndOf="@id/background_grue2"
+        app:layout_constraintBottom_toBottomOf="@id/shoujiyanxuan"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="8758已换"
+        android:textColor="#B2B2B2"
+        app:layout_constraintBottom_toBottomOf="@id/yihuan"
+        app:layout_constraintStart_toStartOf="@id/yihuan"
+        app:layout_constraintEnd_toEndOf="@id/yihuan"/>
+
+
+    <TextView
+        android:id="@+id/高价回收"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="高价回收"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/免沟通免纠纷"
+        app:layout_constraintEnd_toEndOf="@id/jinsheng26jian"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/免沟通免纠纷"
+        app:layout_constraintTop_toBottomOf="@id/jinsheng26jian"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/免沟通免纠纷"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="免沟通免纠纷"
+        android:textColor="#E7752C"
+        app:layout_constraintTop_toBottomOf="@+id/高价回收"
+        app:layout_constraintBottom_toBottomOf="@id/background_grue2"
+        app:layout_constraintStart_toStartOf="@id/jinsheng26jian"
+        app:layout_constraintEnd_toEndOf="@id/jinsheng26jian"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/homepage_newold_three"
+        app:layout_constraintTop_toBottomOf="@id/yihuan"
+        app:layout_constraintStart_toEndOf="@id/jinsheng26jian"
+        app:layout_constraintEnd_toEndOf="@id/background_grue2"
+        app:layout_constraintBottom_toBottomOf="@id/background_grue2"
+        />
+
+    <ImageView
+        android:id="@+id/background_grue3"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:background="@drawable/background_grey"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/background_grue1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_viewpager2_2_1_collapsing_recycleview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#00000000"
+        app:layout_constraintTop_toTopOf="@id/background_grue3"
+        app:layout_constraintBottom_toBottomOf="@id/background_grue3"
+        app:layout_constraintStart_toStartOf="@id/background_grue3"
+        app:layout_constraintEnd_toEndOf="@id/background_grue3"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

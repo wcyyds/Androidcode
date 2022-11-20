@@ -22,10 +22,19 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.viewholder> 
 
         TextView fruitname;
 
+        TextView fruitmoney;
+
+        ImageView sellimage;
+
+        TextView sellname;
+
         public viewholder(@NonNull View itemView) {
             super(itemView);
             fruitimage = (ImageView) itemView.findViewById(R.id.fruit_image);
             fruitname = (TextView) itemView.findViewById(R.id.fruit_name);
+            fruitmoney = (TextView) itemView.findViewById(R.id.fruit_money_number);
+            sellimage = (ImageView) itemView.findViewById(R.id.seller_image);
+            sellname = (TextView) itemView.findViewById(R.id.seller_name);
         }
     }
 
@@ -47,8 +56,11 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.viewholder> 
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
         Log.d("456", "onBindViewHolder: bind" + position);
         Fruit fruit = fruitList.get(position);
-        holder.fruitname.setText(fruit.getName());
-        holder.fruitimage.setImageResource(fruit.getImageid());
+        holder.fruitimage.setImageResource(fruit.getFruit_image());
+        holder.fruitname.setText(fruit.getFruit_name());
+        holder.fruitmoney.setText(fruit.getFruit_money_number());
+        holder.sellimage.setImageResource(fruit.getSeller_image());
+        holder.sellname.setText(fruit.getSeller_name());
     }
 
 

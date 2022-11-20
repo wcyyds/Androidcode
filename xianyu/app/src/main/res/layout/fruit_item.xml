@@ -1,16 +1,59 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <ImageView
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fruit_image" />
+        android:layout_height="300dp"
+        android:id="@+id/fruit_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fruit_name" />
+        android:id="@+id/fruit_name"
+        android:text="罗技鼠标改装套件可口可乐咖啡杯女生男生不锈钢"
+        android:textSize="30dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@id/fruit_image"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fruit_money"
+        android:text="¥"
+        android:textSize="20dp"
+        android:textColor="#FF0000"
+        app:layout_constraintBottom_toBottomOf="@id/fruit_money_number"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fruit_money_number"
+        android:text="12343"
+        android:textSize="25dp"
+        android:textColor="#FF0000"
+        app:layout_constraintTop_toBottomOf="@id/fruit_name"
+        app:layout_constraintStart_toEndOf="@id/fruit_money"/>
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/seller_image"
+        app:roundPercent="1"
+        app:layout_constraintTop_toBottomOf="@id/fruit_money_number"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:id="@+id/seller_name"
+        app:layout_constraintTop_toTopOf="@id/seller_image"
+        app:layout_constraintStart_toEndOf="@id/seller_image"
+        app:layout_constraintBottom_toBottomOf="@id/seller_image"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

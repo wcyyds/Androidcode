@@ -4,40 +4,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="40dp"
+    android:fitsSystemWindows="false"
     tools:context=".FragmentHomepage">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="homepage"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageButton
+        android:id="@+id/one_one"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        android:src="@drawable/homepage_top_left"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/tablayout"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        android:id="@+id/tablayout_homepage"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabSelectedTextColor="@color/tablayout_select"
+        app:tabTextColor="@color/tablayout_unselect"
+        app:layout_constraintEnd_toStartOf="@+id/one_two"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/one_one"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/one_two"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        android:src="@drawable/homepage_top_righr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/homepage_imageview_edittext"
+        android:layout_marginLeft="10dp"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:src="@drawable/homepage_edittext"
+        app:layout_constraintTop_toBottomOf="@id/tablayout_homepage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/homepage_buttom_fenlei"/>
+
+    <ImageView
+        android:id="@+id/homepage_buttom_swap"
+        android:layout_marginLeft="30dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/homepage_second_left"
+        app:layout_constraintTop_toTopOf="@id/homepage_imageview_edittext"
+        app:layout_constraintBottom_toBottomOf="@id/homepage_imageview_edittext"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <EditText
+        android:id="@+id/homepage_edittext"
+        android:layout_width="215dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:hint="搜索宝贝/用户"
+        app:layout_constraintTop_toTopOf="@id/homepage_imageview_edittext"
+        app:layout_constraintBottom_toBottomOf="@id/homepage_imageview_edittext"
+        app:layout_constraintStart_toEndOf="@+id/homepage_buttom_swap" />
+
+    <ImageView
+        android:id="@+id/homepage_buttom_fenlei"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/homepage_second_right"
+        app:layout_constraintTop_toTopOf="@id/homepage_imageview_edittext"
+        app:layout_constraintBottom_toBottomOf="@id/homepage_imageview_edittext"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:id="@+id/myviewpager"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/tablayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
+        app:layout_constraintTop_toBottomOf="@id/homepage_imageview_edittext" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

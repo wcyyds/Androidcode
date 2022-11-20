@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class FragmentShall extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static FragmentShall newInstance(String param1, String param2) {
+        Log.d("FragmentShall", "newInstance: 这里使用了一个newInstance的方法使碎片重新建立的时候保存原来的数据");
         FragmentShall fragment = new FragmentShall();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -48,6 +50,7 @@ public class FragmentShall extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d("onCreate", "onCreate: 这里是oncreate创建了碎片");
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -58,6 +61,7 @@ public class FragmentShall extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("onCreateView", "onCreateView: 这里是onCreateView创建一个碎片的视图");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_shall, container, false);
     }

@@ -4,11 +4,11 @@
 
     <item
         android:id="@+id/fragmenthomepage"
-        android:icon="@drawable/homepage"
+        android:icon="@drawable/bottom_homepage_drawable"
         android:title="闲鱼" />
     <item
         android:id="@+id/fragmenshall"
-        android:icon="@drawable/shall"
+        android:icon="@drawable/bottom_shall_drawable"
         android:title="会玩" />
     <item
         android:id="@+id/fragmentsell"
@@ -16,10 +16,10 @@
         android:title="出闲置" />
     <item
         android:id="@+id/fragmentmessage"
-        android:icon="@drawable/message"
+        android:icon="@drawable/bottom_message_drawable"
         android:title="消息" />
     <item
         android:id="@+id/fragmentmy"
-        android:icon="@drawable/my"
+        android:icon="@drawable/bottom_my_drawable"
         android:title="我的" />
 </menu>

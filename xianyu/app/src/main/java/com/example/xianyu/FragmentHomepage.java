@@ -4,14 +4,17 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.xianyu.homepage.MyAdapter;
 import com.example.xianyu.homepage.viewpager2_1_1;
@@ -85,8 +88,8 @@ public class FragmentHomepage extends Fragment {
     }
 
     private void initPage(){
-        fragments.add(viewpager2_1_1.newInstance("我很帅","1"));
         fragments.add(viewpager2_1_2.newInstance("我很帅","1"));
+        fragments.add(viewpager2_1_1.newInstance("我很帅","1"));
         fragments.add(viewpager2_1_3.newInstance("我很帅","1"));
 
         tablayoutdata.add("关注");
@@ -96,23 +99,59 @@ public class FragmentHomepage extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d("重新启动了什么", "onViewCreated: 这里有没有重新启动这个onviewcreated");
         super.onViewCreated(view, savedInstanceState);
         initPage();
         viewPager2 = view.findViewById(R.id.myviewpager);
         MyAdapter myAdapter = new MyAdapter(getChildFragmentManager(),getLifecycle(),fragments);
         viewPager2.setAdapter(myAdapter);
-        //这里禁止了外部view pager的滑动
-        viewPager2.setUserInputEnabled(false);
-        //如果能在这里进行折叠监听就好了,当折叠没有完毕时,
-        // 不禁止外部viewpage的滑动,如果折叠完全则禁止外部的viewpage的滑动,进行内部的viewpage的滑动
+        //这个就是设置起始页是哪个
+        Log.d("1", "onViewCreated: 看看这个1在什么时候动了");
+        viewPager2.setCurrentItem(2);
 
-        tabLayout = view.findViewById(R.id.tablayout);
+
+
+        tabLayout = view.findViewById(R.id.tablayout_homepage);
+        tabLayout.setSelectedTabIndicatorHeight(0);
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 tab.setText(tablayoutdata.get(position));
             }
         }).attach();
+
+        //这个好像就是一个tablayout的监听,tablayout的字体变大和变小是你自己要弄TextView的,所以现在试试这个的监听
+        tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+
+            //选中状态下面的
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d("1111", "onTabSelected: 1111" + tab.toString());
+                View view1 = tab.getCustomView();
+                if(null != view1 && view1 instanceof TextView){
+                    ((TextView) view1).setTextSize(22);
+                    ((TextView) view1).setTextColor(ContextCompat.
+                            getColor(getContext(), R.color.tablayout_select));
+                }
+            }
+
+            //未选中状态下面的
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.d("2222", "onTabSelected: 2222" + tab.toString());
+                View view2 = tab.getCustomView();
+                if(null != view2 && view2 instanceof TextView){
+                    ((TextView) view2).setTextSize(22);
+                    ((TextView) view2).setTextColor(ContextCompat.
+                            getColor(getContext(), R.color.tablayout_select));
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
 }
