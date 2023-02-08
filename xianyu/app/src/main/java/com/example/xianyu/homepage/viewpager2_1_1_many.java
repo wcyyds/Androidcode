@@ -99,12 +99,12 @@ public class viewpager2_1_1_many extends Fragment {
     private void initFruits(){
         Log.d(TAG, "initFruits: ");
         for(int i = 0; i < 3; i++){
-            Fruit apple = new Fruit(R.drawable.fruit_1,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
+            Fruit apple = new Fruit(R.drawable.fruit_1,"自用狗屁王一代，只有一个鼠标和接收器 正常使用不建议溢价 感兴趣的话就找我私聊吧",
                     "999999999999",R.drawable.sell_1,"王昊阳");
             fruitList.add(apple);
-            Fruit beer = new Fruit(R.drawable.fruit_2,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
-                    "99999999",R.drawable.sell_2,"王昊阳");
-            Fruit bread1 = new Fruit(R.drawable.fruit_3,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈呵哈哈哈哈哈哈哈",
+            Fruit beer = new Fruit(R.drawable.fruit_2,"锤子坚果r2,8+256,内存绿色,边框无大磕碰,屏幕无划痕,成色新,屏幕有微软老化,(抖音加号),不明显,包装盒原装快充都在全套出",
+                    "1550",R.drawable.sell_2,"77新年快乐");
+            Fruit bread1 = new Fruit(R.drawable.fruit_3,"[便宜处理]雅迪同款新国标全新电动车,可上牌,店面到期了不再续租了,生意难做,现将一批全新未开封的电动车以二手的价格线上出售,还有10辆未出售.证件齐全,可上牌",
                     "99999999",R.drawable.sell_3,"王昊阳");
             fruitList.add(bread1);
             Fruit burger = new Fruit(R.drawable.fruit_4,"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈呵呵哈哈哈哈哈哈哈",

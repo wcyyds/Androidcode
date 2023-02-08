@@ -1,4 +1,4 @@
-package com.example.xianyu.homepage;
+package com.example.xianyu;
 
 
 import android.util.Log;
@@ -22,7 +22,6 @@ public class MyAdapter extends FragmentStateAdapter {
         super(fragmentManager, lifecycle);
         Log.d(TAG, "MyAdapter: 这是那个适配器的构造函数");
         this.fragments = fragments;
-        Log.d(TAG, "MyAdapter: ");
     }
 
     @NonNull

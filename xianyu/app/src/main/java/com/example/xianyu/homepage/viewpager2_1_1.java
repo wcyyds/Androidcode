@@ -1,6 +1,5 @@
 package com.example.xianyu.homepage;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,10 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.xianyu.AppBarStateChangeedListener;
-import com.example.xianyu.FruitAdapter;
+import com.example.xianyu.MyAdapter;
 import com.example.xianyu.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;

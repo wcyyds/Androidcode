@@ -1,6 +1,5 @@
 package com.example.xianyu;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -11,19 +10,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 
-import com.example.xianyu.homepage.MyAdapter;
-import com.example.xianyu.homepage.viewpager2_1_1;
-import com.example.xianyu.homepage.viewpager2_1_2;
-import com.example.xianyu.homepage.viewpager2_1_3;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 import java.util.List;

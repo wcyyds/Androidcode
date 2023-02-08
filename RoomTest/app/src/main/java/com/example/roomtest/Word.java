@@ -1,0 +1,49 @@
+package com.example.roomtest;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
+public class Word {
+
+    //这里给id添加了一个主键,并让他自动生成变为true
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    //这是一个名称,便于我们记忆的,可以不写
+    @ColumnInfo(name = "english_word")
+    private String word;
+    @ColumnInfo(name = "chinese_meaning")
+    private String chineseMeaning;
+
+    //id是自增长的所以,我们就不需要来搞这个id
+    public Word(String word, String chineseMeaning) {
+        this.word = word;
+        this.chineseMeaning = chineseMeaning;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public String getChineseMeaning() {
+        return chineseMeaning;
+    }
+
+    public void setChineseMeaning(String chineseMeaning) {
+        this.chineseMeaning = chineseMeaning;
+    }
+}

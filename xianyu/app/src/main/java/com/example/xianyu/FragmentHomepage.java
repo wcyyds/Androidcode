@@ -1,22 +1,21 @@
 package com.example.xianyu;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.xianyu.homepage.MyAdapter;
 import com.example.xianyu.homepage.viewpager2_1_1;
 import com.example.xianyu.homepage.viewpager2_1_2;
 import com.example.xianyu.homepage.viewpager2_1_3;
@@ -36,6 +35,7 @@ public class FragmentHomepage extends Fragment {
 
     ViewPager2 viewPager2;
     TabLayout tabLayout;
+    ImageButton button;
 
     private List<Fragment> fragments = new ArrayList<>();
     private List<String> tablayoutdata = new ArrayList<>();
@@ -107,8 +107,14 @@ public class FragmentHomepage extends Fragment {
         viewPager2.setAdapter(myAdapter);
         //这个就是设置起始页是哪个
         Log.d("1", "onViewCreated: 看看这个1在什么时候动了");
-        viewPager2.setCurrentItem(2);
-
+        button = (ImageButton) view.findViewById(R.id.homepage_buttom_sao);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getApplicationContext(),CamerActivity2.class);
+                startActivity(intent);
+            }
+        });
 
 
         tabLayout = view.findViewById(R.id.tablayout_homepage);

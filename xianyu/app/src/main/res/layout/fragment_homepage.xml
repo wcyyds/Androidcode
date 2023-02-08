@@ -53,12 +53,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/homepage_buttom_fenlei"/>
 
-    <ImageView
-        android:id="@+id/homepage_buttom_swap"
+    <ImageButton
+        android:id="@+id/homepage_buttom_sao"
         android:layout_marginLeft="30dp"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/homepage_second_left"
+        android:background="@drawable/homepage_second_left"
         app:layout_constraintTop_toTopOf="@id/homepage_imageview_edittext"
         app:layout_constraintBottom_toBottomOf="@id/homepage_imageview_edittext"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -72,7 +72,7 @@
         android:hint="搜索宝贝/用户"
         app:layout_constraintTop_toTopOf="@id/homepage_imageview_edittext"
         app:layout_constraintBottom_toBottomOf="@id/homepage_imageview_edittext"
-        app:layout_constraintStart_toEndOf="@+id/homepage_buttom_swap" />
+        app:layout_constraintStart_toEndOf="@+id/homepage_buttom_sao" />
 
     <ImageView
         android:id="@+id/homepage_buttom_fenlei"
