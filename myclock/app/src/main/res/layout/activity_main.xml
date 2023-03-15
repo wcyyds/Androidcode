@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <com.alarmclockview.AlarmClockView
+        android:id="@+id/clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.don.clockviewlibrary.ClockView
+        android:id="@+id/clockView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="411dp" />
+
+
+    <!--    <dk.fjinc.flipperclocklibrary.CountDownClock-->
+<!--        android:id="@+id/countdownClockFirst"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:clipChildren="false"-->
+<!--        android:clipToPadding="false"-->
+<!--        countdownClock:resetSymbol="8"-->
+<!--        countdownClock:digitSplitterColor="@color/colorAccent"-->
+<!--        countdownClock:digitDividerColor="@color/colorAccent"-->
+<!--        countdownClock:digitTopDrawable="@drawable/background_top"-->
+<!--        countdownClock:digitBottomDrawable="@drawable/background_bottom"-->
+<!--        countdownClock:digitTextColor="@color/colorAccent"-->
+<!--        countdownClock:digitPadding="3dp"-->
+<!--        countdownClock:splitterPadding="1dp"-->
+<!--        countdownClock:animationDuration="350"-->
+<!--        countdownClock:almostFinishedCallbackTimeInSeconds="5"-->
+<!--        countdownClock:countdownTickInterval="250"-->
+<!--        countdownClock:halfDigitHeight="15dp"-->
+<!--        countdownClock:digitWidth="40dp"-->
+<!--        countdownClock:digitTextSize="18sp" />-->
+
+<!--    <com.aldrek.digitflip.FlipDigit-->
+<!--        android:id="@+id/digit"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:isFastFlip="true"-->
+<!--        app:tintColor="#FF0000"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        ></com.aldrek.digitflip.FlipDigit>-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

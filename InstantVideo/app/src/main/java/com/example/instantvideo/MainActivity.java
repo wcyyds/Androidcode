@@ -1,5 +1,6 @@
 package com.example.instantvideo;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -32,14 +34,26 @@ import im.zego.zegoexpress.entity.ZegoEngineProfile;
 import im.zego.zegoexpress.entity.ZegoRoomConfig;
 import im.zego.zegoexpress.entity.ZegoStream;
 import im.zego.zegoexpress.entity.ZegoUser;
+import im.zego.zegoexpress.entity.ZegoVideoConfig;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "啥";
     ZegoExpressEngine engine;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button tiaozhuan = (Button)findViewById(R.id.tiaozhuan);
+        tiaozhuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =  new Intent(MainActivity.this,lianxi.class);
+                startActivity(intent);
+            }
+        });
+
 
         // 在通话前需请求相应摄像头、录音权限
         requestPermission();
@@ -72,21 +86,33 @@ public class MainActivity extends AppCompatActivity {
                         //销毁成功
                     }
                 });
-
             }
         });
     }
 
-    //请求摄像头、录音权限
+    //请求权限
     private void requestPermission() {
-        String[] permissionNeeded = {
-                "android.permission.CAMERA",
-                "android.permission.RECORD_AUDIO"};
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.CAMERA") != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.RECORD_AUDIO") != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Log.d("myself", "requestPermission: 看看有没有进入到这里面去");
-                requestPermissions(permissionNeeded, 101);
+//请求摄像头、录音权限
+//        String[] permissionNeeded = {
+//                "android.permission.CAMERA",
+//                "android.permission.RECORD_AUDIO"};
+//        if (ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.CAMERA") != PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.RECORD_AUDIO") != PackageManager.PERMISSION_GRANTED) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                Log.d("myself", "requestPermission: 看看有没有进入到这里面去");
+//                requestPermissions(permissionNeeded, 101);
+//            }
+//        }
+
+        //请求屏幕的权限
+        String[] PERMISSIONS_STORAGE = {
+                "android.permission.RECORD_AUDIO",
+                "android.permission.FOREGROUND_SERVICE"};
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, "android.permission.FOREGROUND_SERVICE") != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(this, "android.permission.RECORD_AUDIO") != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(PERMISSIONS_STORAGE, 101);
             }
         }
     }
@@ -98,11 +124,36 @@ public class MainActivity extends AppCompatActivity {
         ZegoEngineProfile profile = new ZegoEngineProfile();
         profile.appID = 609408564L;  // 请通过官网注册获取，格式为：1234567890L
         profile.appSign = "59fb6b3d70836007ba898832b22da9917c76576b26436737a218dbd538eb33d7"; //请通过官网注册获取，格式为："0123456789012345678901234567890123456789012345678901234567890123"（共64个字符）
-        profile.scenario = ZegoScenario.DEFAULT;  // 通用场景接入
+        profile.scenario = ZegoScenario.BROADCAST;  // 通用场景接入
         profile.application = getApplication();
         engine = ZegoExpressEngine.createEngine(profile, null);
-        //engine.setVideoSource(ZegoVideoSourceType.ZEGO_VIDEO_SOURCE_CAMERA, ZegoPublishChannel.MAIN);
-        //engine.startScreenCapture();
+
+        //enableHardwareEncoder是详情描述: 推流时是否采用硬件编码的开关，开启硬解编码后会使用 GPU 进行编码，降低 CPU 使用率。
+        //调用时机: 在推流前设置才能生效，如果在推流后设置，停推后重新推流可以生效。
+        //注意事项: 由于少部分机型设备硬编支持不是特别好，SDK 默认使用软件编码的方式。若开发者在某些机型测试时发现推大分辨率音视频流时设备发热严重，可考虑调用此函数开启硬编的方式。
+        //打开硬件编码的开关
+        engine.enableHardwareEncoder(true);
+        //改变默认的摄像头推流源为屏幕共享源
+        engine.setVideoSource(ZegoVideoSourceType.ZEGO_VIDEO_SOURCE_SCREEN_CAPTURE, ZegoPublishChannel.AUX);
+
+
+    }
+
+    public void setVideoConfig() {
+        //视频配置信息
+//        ZegoVideoConfig videoConfig = engine.getVideoConfig(ZegoPublishChannel.AUX);
+//        engine.setVideoConfig(videoConfig, ZegoPublishChannel.AUX);
+        //视频配置信息
+        ZegoVideoConfig videoConfig = engine.getVideoConfig(ZegoPublishChannel.AUX);
+//        videoConfig.encodeHeight = Integer.parseInt(encodeResolutionHeight.getText().toString());
+//        videoConfig.encodeWidth = Integer.parseInt(encodeResolutionWidth.getText().toString());;
+//        videoConfig.fps = Integer.parseInt(frameRateEdit.getText().toString());
+//        videoConfig.bitrate = Integer.parseInt(bitrateEdit.getText().toString());
+//        Log.d("检测", "setVideoConfig: " + encodeResolutionHeight.getText().toString());
+//        Log.d("检测", "setVideoConfig: " + encodeResolutionWidth.getText().toString());
+//        Log.d("检测", "setVideoConfig: " + frameRateEdit.getText().toString());
+//        Log.d("检测", "setVideoConfig: " + bitrateEdit.getText().toString());
+        engine.setVideoConfig(videoConfig, ZegoPublishChannel.AUX);
     }
 
 
@@ -120,17 +171,24 @@ public class MainActivity extends AppCompatActivity {
 
     //登录房间
     void loginRoom() {
-        // ZegoUser 的构造方法 public ZegoUser(String userID) 会将 “userName” 设为与传的参数 “userID” 一样。“userID” 与 “userName” 不能为 “null” 否则会导致登录房间失败。
+        // ZegoUser 的构造方法 public ZegoUser(String userID) 会将 “userName” 设为与传的参数
+        // “userID” 一样。“userID” 与 “userName” 不能为 “null” 否则会导致登录房间失败。
         ZegoUser user = new ZegoUser("user2");
 
         ZegoRoomConfig roomConfig = new ZegoRoomConfig();
-        //如果您使用 appsign 的方式鉴权，token 参数不需填写；如果需要使用更加安全的 鉴权方式： token 鉴权，请参考[如何从 AppSign 鉴权升级为 Token 鉴权](https://doc-zh.zego.im/faq/token_upgrade?product=ExpressVideo&platform=all)
+        //如果您使用 appsign 的方式鉴权，token 参数不需填写；如果需要使用更加安全的 鉴权方式： token 鉴权，
+        // 请参考[如何从 AppSign 鉴权升级为 Token 鉴权](https://doc-zh.zego.im/faq/token_upgrade?product=ExpressVideo&platform=all)
         //roomConfig.token = ;
         // 只有传入 “isUserStatusNotify” 参数取值为 “true” 的 ZegoRoomConfig，才能收到 onRoomUserUpdate 回调。
         roomConfig.isUserStatusNotify = true;
 
         // roomID 由您本地生成,需保证 “roomID” 全局唯一。不同用户要登录同一个房间才能进行通话
         String roomID = "room1";
+
+        //配置视频信息
+        setVideoConfig();
+        //开始屏幕共享
+        engine.startScreenCapture();
 
         // 登录房间
         engine.loginRoom(roomID, user, roomConfig, (int error, JSONObject extendedData)->{
@@ -149,14 +207,12 @@ public class MainActivity extends AppCompatActivity {
     void startPublish() {
         // 设置本地预览视图并启动预览，视图模式采用 SDK 默认的模式，等比缩放填充整个 View
         ZegoCanvas previewCanvas = new ZegoCanvas(findViewById(R.id.preview));
-        //设置推流的源头为屏幕共享源
-        //engine.setVideoSource(ZegoVideoSourceType.ZEGO_VIDEO_SOURCE_CAMERA, ZegoPublishChannel.MAIN);
         engine.startPreview(previewCanvas);
-        //engine.startScreenCapture();
 
         // 开始推流
         // 用户调用 loginRoom 之后再调用此接口进行推流
         // 在同一个 AppID 下，开发者需要保证“streamID” 全局唯一，如果不同用户各推了一条 “streamID” 相同的流，后推流的用户会推流失败。
+        Log.d(TAG, "startPublish: 开始推流");
         engine.startPublishingStream("stream2");
     }
 
