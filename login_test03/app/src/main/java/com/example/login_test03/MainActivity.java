@@ -2,6 +2,7 @@ package com.example.login_test03;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Person;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,10 +11,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,11 +24,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     String TAG = "测试";
 
-    user user1 = new user();
+    User user = User.getInstance();
+
     TextView textView;
     Button getverification;
     Button login;
@@ -53,105 +66,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void login() throws IOException {
-        Log.d(TAG, "login: 开始登录");
-        OkHttpClient client1 = new OkHttpClient();
-        RequestBody requestBody1 = new FormBody.Builder()
-                .add("phone", user1.getUesername())
-                .add("password", user1.getPassword())
-                .add("code", user1.getVerification())
-                .build();
-        Request request1 = new Request.Builder()
-                .url("https://43.138.88.123/user/login")
-                .post(requestBody1)
-                .build();
-        Response response1 = client1.newCall(request1).execute();
-        Toast.makeText(MainActivity.this, response1.toString(), Toast.LENGTH_SHORT).show();
-    }
-
-    private void login1() {
+        Log.d(TAG, "login: 开始进入到新的线程中去");
         new Thread(new Runnable() {
             @Override
             public void run() {
-                HttpURLConnection connection = null;
-                BufferedReader reader = null;
                 try {
-                    URL url = new URL("https://43.138.88.123/user/login");
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
-                    DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-                    out.writeBytes("phone=" + user1.getUesername() +
-                            "&password=" + user1.getPassword() +
-                            "&code" + user1.getVerification());
-                    connection.setConnectTimeout(8000);
-                    connection.setReadTimeout(8000);
-                    InputStream in = connection.getInputStream();
-                    //对获取的输入流进行读取
-                    reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (reader != null) {
-                        try {
-                            reader.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
-                }
-            }
-        }).start();
-    }
 
-    private void sendRequest1() {
-        Log.d(TAG, "sendRequest1: 现在就进入到了验证码里面了，但是还没有进入到新的线程里面");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "run: 现在进入到了新的线程里面了");
-                HttpURLConnection connection = null;
-                BufferedReader reader = null;
-                try {
-                    URL url = new URL("https://101.42.38.110/api/v1/user/code");
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
-                    Log.d(TAG, "run: 现在是发送了post请求");
-                    DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-                    Log.d(TAG, "run: 现在是");
-                    out.writeBytes("phone=" + user1.getUesername() +
-                            "&password=" + "");
-                    Log.d(TAG, "run: 现在是把那个推送出去了");
-                    connection.setConnectTimeout(8000);
-                    connection.setReadTimeout(8000);
-                    InputStream in = connection.getInputStream();
-                    //对获取的输入流进行读取
-                    Log.d(TAG, "run: 现在正在对获取的输入流进行读取");
-                    reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (reader != null) {
-                        try {
-                            reader.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    MediaType JSON = MediaType.parse("application/json;charset=utf-8");
+                    JSONObject jsonObject = new JSONObject();
+
+                    Log.d(TAG, "login: 开始登录");
+
+                    jsonObject.put("email",user.getUesername());
+                    jsonObject.put("code",verification.getText().toString());
+                    jsonObject.put("password",password.getText().toString());
+
+                    OkHttpClient client = new OkHttpClient();
+
+                    RequestBody requestBody = RequestBody.create(JSON, String.valueOf(jsonObject));
+
+                    Request request = new Request.Builder()
+                            .url("http://101.42.38.110/api/v1/user/register")
+                            .post(requestBody)
+                            .build();
+
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            Log.d(TAG, "onFailure: 失败的原因" + e.toString());
                         }
-                    }
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            Log.d(TAG, "onResponse: 这里是成功接收的" + response.body().string());
+                            user.setUesername(username.getText().toString());
+                            user.setPassword(password.getText().toString());
+                            user.setVerification(password.getText().toString());
+                            Log.d(TAG, "onResponse: 成功接收，并记录成功");
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }).start();
@@ -162,24 +117,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "sendRequest: 开始请求验证码");
                 try {
+
+                    MediaType JSON = MediaType.parse("application/json;charset=utf-8");
+                    JSONObject jsonObject = new JSONObject();
+
+                    Log.d(TAG, "sendRequest: 开始请求验证码");
+
+                    jsonObject.put("email",username.getText().toString());
+
+
                     OkHttpClient client = new OkHttpClient();
-                    RequestBody requestBody = new FormBody.Builder()
-                            .add("email", username.getText().toString())
-                            .build();
-                    Log.d(TAG, "run: 这是输入的邮箱" + user1.getVerification());
-                    Log.d(TAG, "run: 这是直接从输入框获取的邮箱" + username.getText().toString());
+
+                    RequestBody requestBody = RequestBody.create(JSON, String.valueOf(jsonObject));
 
                     Request request = new Request.Builder()
-                            .url("http://101.42.38.110/api/v1/user/code")
+                            .url("http://101.42.38.110:9999/api/v1/user/code")
                             .post(requestBody)
                             .build();
 
-                    Response response = client.newCall(request).execute();
-                    user1.setVerification(response.body().string());
-                    Log.d(TAG, "run: 直接展示了请求到的代码" + response.body().string());
-                    showResponse(user1.getVerification());
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            Log.d(TAG, "onFailure: 失败的原因" + e.toString());
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            Log.d(TAG, "onResponse: 这里是成功接收的" + response.body().string());
+                            user.setUesername(username.getText().toString());
+                            Log.d(TAG, "onResponse: 成功接收，并记录成功");
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -197,15 +166,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    private void parseJSONWithGSON(String response){
+        Gson gson = new Gson();
+        Information_back person = new Information_back();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            person = gson.fromJson(response, Information_back.class);
+            Log.d(TAG, "parseJSONWithGSON: 接收的数据" + person.getData() + person.getCode()
+            + person.getMsg() + person.getErr());
+        }
+    }
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.getverification:
-                Log.d(TAG, "onClick: 进入到了获取验证码里面");
-                user1.setUesername(username.getText().toString());
-                Log.d(TAG, "onClick: 这是在最开始获取的邮箱" + user1.getUesername());
-                user1.setPassword(password.getText().toString());
-                Log.d(TAG, "onClick: 现在准备进入到请求验证码里面");
                 try {
                     sendRequest();
                 } catch (IOException e) {

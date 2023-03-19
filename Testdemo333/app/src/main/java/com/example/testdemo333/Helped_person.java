@@ -58,30 +58,6 @@ public class Helped_person extends AppCompatActivity {
         loginRoom();
         // 开始预览及推流
         startPublish();
-//        // 开始通话按钮
-//        findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
-//            // 点击开始通话
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-//
-//        // 停止通话按钮
-//        findViewById(R.id.stopButton).setOnClickListener(new View.OnClickListener() {
-//            // 点击停止通话
-//            @Override
-//            public void onClick(View view) {
-//                engine.logoutRoom();
-//                ZegoExpressEngine.destroyEngine(new IZegoDestroyCompletionCallback() {
-//                    @Override
-//                    public void onDestroyCompletion() {
-//                        //销毁成功
-//                    }
-//                });
-//
-//            }
-//        });
     }
 
     //请求摄像头、录音权限
