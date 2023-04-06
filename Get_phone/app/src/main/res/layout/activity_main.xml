@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_incoming_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取来电号码"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_incoming_call_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="不获取来电号码"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_incoming_call" />
+
+    <Button
+        android:id="@+id/btn_outgoing_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取去电号码"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_incoming_call_cancel" />
+
+    <Button
+        android:id="@+id/btn_outgoing_call_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="不获取去电号码"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_outgoing_call" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_outgoing_call_cancel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

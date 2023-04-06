@@ -35,11 +35,15 @@ public class Helper extends AppCompatActivity {
 
     public static String TAG = "helper";
 
+    Person person = Person.getInstance();
+
     ZegoExpressEngine engine;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_helper);
+
+
 
         // 在通话前需请求相应摄像头、录音权限
         requestPermission();
@@ -58,10 +62,8 @@ public class Helper extends AppCompatActivity {
     //请求摄像头、录音权限
     private void requestPermission() {
         String[] permissionNeeded = {
-                "android.permission.CAMERA",
-                "android.permission.RECORD_AUDIO"};
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.CAMERA") != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.RECORD_AUDIO") != PackageManager.PERMISSION_GRANTED) {
+                "android.permission.CAMERA"};
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.CAMERA") != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(permissionNeeded, 101);
             }
@@ -73,8 +75,8 @@ public class Helper extends AppCompatActivity {
         // 创建引擎，通用场景接入，并注册 self 为 eventHandler 回调
         // 不需要注册回调的话，eventHandler 参数可以传 null，后续可调用 "setEventHandler:" 方法设置回调
         ZegoEngineProfile profile = new ZegoEngineProfile();
-        profile.appID = 609408564L;  // 请通过官网注册获取，格式为：1234567890L
-        profile.appSign = "59fb6b3d70836007ba898832b22da9917c76576b26436737a218dbd538eb33d7"; //请通过官网注册获取，格式为："0123456789012345678901234567890123456789012345678901234567890123"（共64个字符）
+        profile.appID = person.getAppID();  // 请通过官网注册获取，格式为：1234567890L
+        profile.appSign = person.getAppSign(); //请通过官网注册获取，格式为："0123456789012345678901234567890123456789012345678901234567890123"（共64个字符）
         profile.scenario = ZegoScenario.DEFAULT;  // 通用场景接入
         profile.application = getApplication();
         engine = ZegoExpressEngine.createEngine(profile, null);
@@ -83,16 +85,16 @@ public class Helper extends AppCompatActivity {
     //登录房间
     void loginRoom() {
         // ZegoUser 的构造方法 public ZegoUser(String userID) 会将 “userName” 设为与传的参数 “userID” 一样。“userID” 与 “userName” 不能为 “null” 否则会导致登录房间失败。
-        ZegoUser user = new ZegoUser("user3");
+        ZegoUser user = new ZegoUser(person.getUserID());
 
         ZegoRoomConfig roomConfig = new ZegoRoomConfig();
-        //如果您使用 appsign 的方式鉴权，token 参数不需填写；如果需要使用更加安全的 鉴权方式： token 鉴权，请参考[如何从 AppSign 鉴权升级为 Token 鉴权](https://doc-zh.zego.im/faq/token_upgrade?product=ExpressVideo&platform=all)
+        //如果使用 appsign 的方式鉴权，token 参数不需填写；如果需要使用更加安全的 鉴权方式： token 鉴权，请参考[如何从 AppSign 鉴权升级为 Token 鉴权](https://doc-zh.zego.im/faq/token_upgrade?product=ExpressVideo&platform=all)
         //roomConfig.token = ;
         // 只有传入 “isUserStatusNotify” 参数取值为 “true” 的 ZegoRoomConfig，才能收到 onRoomUserUpdate 回调。
         roomConfig.isUserStatusNotify = true;
 
-        // roomID 由您本地生成,需保证 “roomID” 全局唯一。不同用户要登录同一个房间才能进行通话
-        String roomID = "room1";
+        // roomID 本地生成,需保证 “roomID” 全局唯一。不同用户要登录同一个房间才能进行通话
+        String roomID = person.getRoomID();
 
         // 登录房间
         engine.loginRoom(roomID, user, roomConfig, (int error, JSONObject extendedData)->{
@@ -116,7 +118,7 @@ public class Helper extends AppCompatActivity {
         // 开始推流
         // 用户调用 loginRoom 之后再调用此接口进行推流
         // 在同一个 AppID 下，开发者需要保证“streamID” 全局唯一，如果不同用户各推了一条 “streamID” 相同的流，后推流的用户会推流失败。
-        engine.startPublishingStream("stream1");
+        engine.startPublishingStream(person.getStreamID());
         Log.d(TAG, "startPublish: 开始推流了");
     }
 
@@ -255,11 +257,6 @@ public class Helper extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         Log.d(TAG, "onDestroy: 销毁活动");
         engine.logoutRoom();
         ZegoExpressEngine.destroyEngine(new IZegoDestroyCompletionCallback() {

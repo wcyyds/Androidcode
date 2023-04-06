@@ -10,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -38,15 +40,49 @@ import im.zego.zegoexpress.entity.ZegoUser;
 
 public class MainActivity extends AppCompatActivity {
 
-        @Override
+    Person person = Person.getInstance();
+
+    private EditText userid;
+    private EditText roomid;
+    private EditText  streamid;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        userid = (EditText) findViewById(R.id.userid);
+
+        roomid = (EditText) findViewById(R.id.roomid);
+
+        streamid = (EditText) findViewById(R.id.streamid);
+
+        //每个项目独有的id
+        person.setAppID(609408564L);
+        //每个人独有的id
+        person.setUserID(userid.getText().toString());
+        //房间名不能重复，只能两个人使用
+        person.setRoomID(roomid.getText().toString());
+        //每个人独有的流的id，重复使用会把前面一个人挤出去
+        person.setStreamID(streamid.getText().toString());
+        Log.d("1111", "onCreate: " + userid.getText().toString());
+        Log.d("1111", "onCreate: " + roomid.getText().toString());
+        Log.d("1111", "onCreate: " + streamid.getText().toString());
+        //项目的鉴权秘钥
+        person.setAppSign("59fb6b3d70836007ba898832b22da9917c76576b26436737a218dbd538eb33d7");
 
         Button helped = (Button) findViewById(R.id.helped);
         helped.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //每个项目独有的id
+                person.setAppID(609408564L);
+                //每个人独有的id
+                person.setUserID(userid.getText().toString());
+                //房间名不能重复，只能两个人使用
+                person.setRoomID(roomid.getText().toString());
+                //每个人独有的流的id，重复使用会把前面一个人挤出去
+                person.setStreamID(streamid.getText().toString());
                 Intent intent = new Intent(MainActivity.this, Helped_person.class);
                 startActivity(intent);
             }
@@ -56,6 +92,14 @@ public class MainActivity extends AppCompatActivity {
         helper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //每个项目独有的id
+                person.setAppID(609408564L);
+                //每个人独有的id
+                person.setUserID(userid.getText().toString());
+                //房间名不能重复，只能两个人使用
+                person.setRoomID(roomid.getText().toString());
+                //每个人独有的流的id，重复使用会把前面一个人挤出去
+                person.setStreamID(streamid.getText().toString());
                 Intent intent = new Intent(MainActivity.this, Helper.class);
                 startActivity(intent);
             }
