@@ -4,11 +4,14 @@ import static android.Manifest.permission.READ_CALL_LOG;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         requestPermission();
+
         // 实例化控件
         btnIncomingCall = (Button) findViewById(R.id.btn_incoming_call);
         btnIncomingCallCancel = (Button) findViewById(R.id.btn_incoming_call_cancel);
@@ -63,15 +67,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button3.setOnClickListener(this);
     }
 
+    private void huoqu(){
+        Log.d("进入", "huoqu: ");
+        @SuppressLint("ServiceCast") TelephonyManager telephonyManager = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+        //String deviceid = telephonyManager.getDeviceId();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        String tel = telephonyManager.getLine1Number();
+        Log.d("phone", "onCreate: " + tel);
+    }
+
     //请求摄像头、录音权限
     private void requestPermission() {
         String[] permissionNeeded = {
                 "android.permission.READ_CALL_LOG",
                 "android.permission.READ_PHONE_STATE",
-                "android.permission.CALL_PHONE"};
+                "android.permission.CALL_PHONE",
+                "android.permission.READ_PRIVILEGED_PHONE_STATE",
+                "android.permission.READ_SMS",
+                "android.permission.READ_PHONE_NUMBERS"};
         if (ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.READ_CALL_LOG") != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.READ_PHONE_STATE") != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.CALL_PHONE") != PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.CALL_PHONE") != PackageManager.PERMISSION_GRANTED||
+                ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.READ_PRIVILEGED_PHONE_STATE") != PackageManager.PERMISSION_GRANTED||
+                ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.READ_SMS") != PackageManager.PERMISSION_GRANTED||
+                ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.READ_PHONE_NUMBERS") != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(permissionNeeded, 101);
             }
@@ -102,7 +130,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "不获取去电号码", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.button3:
-                callPhone("18991377839");
+                //callPhone("18991377839");
+                huoqu();
         }
     }
 

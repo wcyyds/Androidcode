@@ -33,7 +33,7 @@ public class DeleteActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         FamilyAdapter adapter = new FamilyAdapter(familyListlist);
-        adapter.setDeleteActivity(true);
+        adapter.setDeleteActivity(true,this);
         recyclerView.setAdapter(adapter);
     }
 
