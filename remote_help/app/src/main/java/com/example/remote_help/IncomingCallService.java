@@ -13,13 +13,13 @@ import com.example.remote_help.sharescreen.Helper;
 
 public class IncomingCallService extends Service {
 
-    Object object;
+    Context context;
 
     public IncomingCallService() {
     }
 
-    public IncomingCallService(Object object) {
-        this.object = object;
+    public IncomingCallService(Context context) {
+        this.context = context;
     }
 
 //    @Override
@@ -88,10 +88,14 @@ public class IncomingCallService extends Service {
                     Log.d("这是来电的电话号码", "onCallStateChanged: " + incomingNumber);
                     Toast.makeText(IncomingCallService.this, "来电号码是：" + incomingNumber, Toast
                             .LENGTH_LONG).show();
-                    Intent intent = new Intent((Context) object, Helper.class);
-                    ((Context) object).startActivity(intent);
+                    Intent intent = new Intent(getBaseContext(), MiddleActivity2.class);
+                    String phone = incomingNumber;
+                    intent.putExtra("number", phone);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getApplication().startActivity(intent);
                 break;
-                default:;
+                default:
+
             }
         }
     }

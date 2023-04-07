@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,11 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.remote_help.MainActivity;
+import com.example.remote_help.Person;
 import com.example.remote_help.R;
 
-import java.util.concurrent.BlockingDeque;
-
 public class GetPhoneNumberActivity extends AppCompatActivity {
+
+    private final String TAG = "GetPhoneNumberActivity";
 
     private Person person = Person.getInstance();
 
@@ -30,6 +32,10 @@ public class GetPhoneNumberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_phone_number);
 
+        //在最开始的时候就对person进行初始数据的初始化
+        person.setAppID(609408564L);
+        person.setAppSign("59fb6b3d70836007ba898832b22da9917c76576b26436737a218dbd538eb33d7");
+
         isPersonData();
 
         editText = (EditText) findViewById(R.id.editText);
@@ -42,28 +48,33 @@ public class GetPhoneNumberActivity extends AppCompatActivity {
                 person.setRoomID(editText.getText().toString());
                 person.setStreamID(editText.getText().toString());
 
-                Log.d("chat", "onClick: 检查" + person.getUserID());
+                Log.d(TAG, "onClick: 检查是否添加到person" + person.getUserID());
 
                 SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
                 editor.putString("userid", person.getUserID());
                 editor.apply();
 
-                Log.d("123", "onClick: 添加成功");
+                Log.d(TAG, "onClick: 添加成功,关闭该活动,并且进入到下一项");
                 startMainActivity();
             }
         });
 
     }
 
+    //判断是否之前有数据
     private void isPersonData(){
         SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
         String userid = sharedPreferences.getString("userid", "");
-        Log.d("start", "isPersonData: 开机检测是否收到,本地传来的值" + userid);
+        person.setUserID(userid);
+        person.setRoomID(userid);
+        person.setStreamID(userid);
+        Log.d(TAG, "isPersonData: 开机检测是否收到,本地传来的值" + userid);
+        Log.d(TAG, "isPersonData: 开机检测是否收到,本地传来的值" + person.getUserID());
 
 
         //这个现在不能读取
-        if(!(userid == null)){
-            Log.d("进入到要电话号码", "isPersonData: " + userid);
+        if(person.getUserID() != ""){
+            Log.d(TAG, "isPersonData: 检测已经记录过了本机号码,直接跳过并且该活动,进入到下一项" + userid);
             startMainActivity();
         }
     }
@@ -71,6 +82,5 @@ public class GetPhoneNumberActivity extends AppCompatActivity {
     private void startMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        //finish();
     }
 }

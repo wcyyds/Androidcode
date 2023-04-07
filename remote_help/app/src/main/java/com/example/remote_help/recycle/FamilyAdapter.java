@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +12,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.remote_help.MiddleActivity;
 import com.example.remote_help.R;
-import com.example.remote_help.sharescreen.GetPhoneNumberActivity;
 import com.example.remote_help.sharescreen.Helped_person;
-import com.example.remote_help.sharescreen.Person;
+import com.example.remote_help.Person;
 import com.example.remote_help.sqlite.Operate;
 
 import java.util.List;
@@ -36,6 +34,10 @@ public class FamilyAdapter extends RecyclerView.Adapter<FamilyAdapter.ViewHolder
 
     private Person person = Person.getInstance();
 
+    /*
+    这里是给adapter传入两个值,一个是判断启动的adapter是那个活动启动的
+    true为delete活动启动的,false为主页活动启动的,第二个是传入了两个活动的Context值,后面启动会用到的
+     */
     public void setDeleteActivity(boolean deleteActivity, Context object) {
         this.deleteActivity = deleteActivity;
         this.object = object;
@@ -68,10 +70,11 @@ public class FamilyAdapter extends RecyclerView.Adapter<FamilyAdapter.ViewHolder
         holder.familyView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //获取当前点击按钮的类
+                int position = holder.getAdapterPosition();
+                Family family = list.get(position);
                 if(deleteActivity){
                     Log.d("delete", "onClick: ");
-                    int position = holder.getAdapterPosition();
-                    Family family = list.get(position);
                     //要在这里发出警告,警告的内容,然后是否同意
                     AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext());
                     dialog.setTitle("这是一个警告");
@@ -91,13 +94,29 @@ public class FamilyAdapter extends RecyclerView.Adapter<FamilyAdapter.ViewHolder
                     });
                     dialog.show();
                 }else{
-                    Log.d("打电话", "onClick: 直接进入打电话的界面,然后开房间,进行屏幕通话");
-                        Intent intent = new Intent(object, Helped_person.class);
-                        object.startActivity(intent);
+                    Log.d("打电话123456", "onClick: 直接进入打电话的界面,然后开房间,进行屏幕通话");
+
+                    Intent intent = new Intent(object, MiddleActivity.class);
+                    intent.putExtra("data",family.getPhone_number());
+                    object.startActivity(intent);
+
                 }
             }
         });
         return holder;
+    }
+
+    //传入电话号码,直接开始打电话
+    public void callPhone(String phoneNum){
+
+        Intent intent = new Intent(Intent.ACTION_CALL);
+
+        Uri data = Uri.parse("tel:" + phoneNum);
+
+        intent.setData(data);
+
+        object.startActivity(intent);
+
     }
 
     @Override

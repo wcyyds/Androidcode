@@ -3,12 +3,15 @@ package com.example.remote_help.sharescreen;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.remote_help.Person;
 import com.example.remote_help.R;
 
 import org.json.JSONObject;
@@ -45,8 +48,12 @@ public class Helped_person extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_helped_person);
 
+        Log.d(TAG, "onCreate: " + person.getUserID());
+        Log.d(TAG, "onCreate: " + person.getRoomID());
+        Log.d(TAG, "onCreate: " + person.getStreamID());
+
         // 在通话前需请求相应摄像头、录音权限
-        requestPermission();
+        //requestPermission();
 
         // 创建Express SDK 实例
         createEngine();
@@ -58,17 +65,6 @@ public class Helped_person extends AppCompatActivity {
         startPublish();
     }
 
-    //请求摄像头、录音权限
-    private void requestPermission() {
-        String[] permissionNeeded = {
-                "android.permission.CAMERA"};
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), "android.permission.CAMERA") != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(permissionNeeded, 101);
-            }
-        }
-    }
-
     // 创建 ZegoExpress 实例，监听常用事件
     void createEngine() {
         // 创建引擎，通用场景接入，并注册 self 为 eventHandler 回调
@@ -76,6 +72,8 @@ public class Helped_person extends AppCompatActivity {
         ZegoEngineProfile profile = new ZegoEngineProfile();
         profile.appID = person.getAppID();  // 请通过官网注册获取，格式为：1234567890L
         profile.appSign = person.getAppSign();
+        Log.d(TAG, "createEngine: " + person.getUserID());
+        Log.d(TAG, "createEngine: " + person.getAppID());
         //请通过官网注册获取，格式为："0123456789012345678901234567890123456789012345678901234567890123"（共64个字符）
         profile.scenario = ZegoScenario.DEFAULT;  // 通用场景接入
         profile.application = getApplication();
@@ -94,7 +92,7 @@ public class Helped_person extends AppCompatActivity {
     //登录房间
     void loginRoom() {
         // ZegoUser 的构造方法 public ZegoUser(String userID) 会将 “userName” 设为与传的参数 “userID” 一样。“userID” 与 “userName” 不能为 “null” 否则会导致登录房间失败。
-        ZegoUser user = new ZegoUser(person.UserID);
+        ZegoUser user = new ZegoUser(person.getUserID());
 
         ZegoRoomConfig roomConfig = new ZegoRoomConfig();
         //如果您使用 appsign 的方式鉴权，token 参数不需填写；如果需要使用更加安全的 鉴权方式： token 鉴权

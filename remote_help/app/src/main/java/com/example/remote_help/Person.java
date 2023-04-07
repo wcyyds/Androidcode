@@ -1,11 +1,11 @@
-package com.example.remote_help.sharescreen;
+package com.example.remote_help;
 
 public class Person {
 
     //使用懒汉单例模式，即在类加载时创建好对象
-    private static final Person person = new Person();
+    public static final Person person = new Person();
 
-    private Person(){}
+    public Person(){}
 
     public static Person getInstance() {
         return person;
