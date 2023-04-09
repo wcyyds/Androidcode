@@ -56,28 +56,12 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
-        android:id="@+id/dadianhua"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="删除"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
         android:id="@+id/delete"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:text="删除"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <FrameLayout
-        android:id="@+id/framelayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:ignore="MissingConstraints">
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

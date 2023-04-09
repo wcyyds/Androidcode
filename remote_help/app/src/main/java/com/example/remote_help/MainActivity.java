@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton delete;
 
-    private ImageButton dadianhua;
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,20 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
         add = (ImageButton) findViewById(R.id.add);
         delete = (ImageButton) findViewById(R.id.delete);
-        dadianhua = (ImageButton) findViewById(R.id.dadianhua);
-
-        dadianhua.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-
-                Uri data = Uri.parse("tel:" + "18991377839");
-
-                intent.setData(data);
-
-                startActivity(intent);
-            }
-        });
 
         //添加联系人按钮
         add.setOnClickListener(new View.OnClickListener() {
@@ -164,15 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(permissionNeeded, 101);
             }
         }
-    }
-    
-    //这是启动一个碎片
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.framelayout, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
     //初始化recycleview
