@@ -16,18 +16,26 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.blankj.utilcode.util.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    //这个项目的A4:75:93:FB:E2:B2:67:92:85:D1:1D:1E:38:EC:BB:F0:43:45:55:52
     public LocationClient mLocationClient;
     private TextView positionText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LocationClient.setAgreePrivacy(true);
+
+        for (int i = 0; i < AppUtils.getAppSignaturesSHA1().size(); i++) {
+            Log.d("密钥", "onCreate: " + AppUtils.getAppSignaturesSHA1().get(i));
+        }
+
         try {
             mLocationClient = new LocationClient(getApplicationContext());
         } catch (Exception e) {
@@ -41,17 +49,6 @@ public class MainActivity extends AppCompatActivity {
                 PackageManager.PERMISSION_GRANTED){
             Log.d("123456", "123444444444");
             permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
-
-        }
-//        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE)!=
-//                PackageManager.PERMISSION_GRANTED){
-//            Log.d("123456", "1234444444445555555");
-//            permissionList.add(Manifest.permission.READ_PHONE_STATE);
-//        }
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!=
-                PackageManager.PERMISSION_GRANTED){
-            Log.d("123456", "12344444444466666666");
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
         if(!permissionList.isEmpty()){
             Log.d("123456", "开始给权限了");
@@ -134,12 +131,9 @@ public class MainActivity extends AppCompatActivity {
                         currentPosition.append("网络");
                     }
                     positionText.setText(currentPosition);
-                    Log.d("MyLocationListener", "获得的gps信息: " + currentPosition);
+                    Log.d("123", "获得的gps信息: " + currentPosition);
                 }
             });
-        }
-        public void onConnectHotSpotMessage(String s, int t){
-
         }
     }
 }
