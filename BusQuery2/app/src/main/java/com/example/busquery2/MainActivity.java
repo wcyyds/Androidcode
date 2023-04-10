@@ -36,18 +36,12 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private static final String TAG = "MAIN";
-
-
 
     CityList cityList = new CityList();
 
-
-
     public LocationClient mLocationClient;
     private TextView positionText;
-
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -60,33 +54,34 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate: " + AppUtils.getAppSignaturesSHA1().get(i));
         }
 
-        cityList.sendRequestWithOkHttp();
+        //cityList.sendRequestWithOkHttp();
 
+    }
 
-//        LocationClient.setAgreePrivacy(true);
-//        try {
-//            mLocationClient = new LocationClient(getApplicationContext());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        mLocationClient.registerLocationListener(new MyLocationListener());
-//        setContentView(R.layout.activity_main);
-//        positionText = (TextView) findViewById(R.id.position_text_view);
-//        List<String> permissionList = new ArrayList<>();
-//        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)!=
-//                PackageManager.PERMISSION_GRANTED){
-//            Log.d("123456", "123444444444");
-//            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
-//        }
-//        if(!permissionList.isEmpty()){
-//            Log.d("123456", "开始给权限了");
-//            String [] permissions = permissionList.toArray(new String[permissionList.size()]);
-//            ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);
-//        }else {
-//            Log.d("123456", "开始调用定位了" );
-//            requestLocation();
-//        }
-
+    private void initbaidu(){
+        LocationClient.setAgreePrivacy(true);
+        try {
+            mLocationClient = new LocationClient(getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mLocationClient.registerLocationListener(new MyLocationListener());
+        setContentView(R.layout.activity_main);
+        positionText = (TextView) findViewById(R.id.position_text_view);
+        List<String> permissionList = new ArrayList<>();
+        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)!=
+                PackageManager.PERMISSION_GRANTED){
+            Log.d("123456", "123444444444");
+            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if(!permissionList.isEmpty()){
+            Log.d("123456", "开始给权限了");
+            String [] permissions = permissionList.toArray(new String[permissionList.size()]);
+            ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);
+        }else {
+            Log.d("123456", "开始调用定位了" );
+            requestLocation();
+        }
     }
 
 
@@ -98,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initLocation(){
         LocationClientOption option = new LocationClientOption();
-        option.setScanSpan(5000);
+        option.setScanSpan(100000);
         option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
         option.setIsNeedAddress(true);
         mLocationClient.setLocOption(option);
