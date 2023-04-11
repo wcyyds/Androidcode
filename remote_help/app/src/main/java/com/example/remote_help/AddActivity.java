@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.remote_help.sqlite.Operate;
 
@@ -17,7 +18,7 @@ public class AddActivity extends AppCompatActivity {
 
     private EditText importPhone;
 
-    private Button addPerson;
+    private ImageButton addPerson;
 
     private String name;
 
@@ -33,7 +34,7 @@ public class AddActivity extends AppCompatActivity {
         importName = (EditText) findViewById(R.id.add_name);
         importPhone = (EditText) findViewById(R.id.add_phone);
 
-        addPerson = (Button) findViewById(R.id.add_person);
+        addPerson = (ImageButton) findViewById(R.id.add_person);
         Log.d("", "onCreateView: 这里是点击事件");
         addPerson.setOnClickListener(new View.OnClickListener() {
             @Override

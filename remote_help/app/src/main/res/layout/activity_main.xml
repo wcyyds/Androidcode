@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFDEE0"
+    android:background="#F5F5F5"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
@@ -47,7 +47,7 @@
         android:layout_marginRight="5dp"
         android:text="18991377839"
         android:textColor="@color/black"
-        android:textSize="45dp"
+        android:textSize="40dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageFilterView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageFilterView" />
@@ -69,7 +69,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleview"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -147,43 +147,43 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:background="#F44336"
         app:layout_constraintDimensionRatio="W,1:1"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/imageFilterView2"
-        android:background="#F44336"/>
+        app:layout_constraintTop_toBottomOf="@+id/imageFilterView2" />
 
     <ImageButton
         android:id="@+id/call_sos"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="#FF9800"
         app:layout_constraintDimensionRatio="W,1:1"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/call_119"
-        android:background="#FF9800" />
+        app:layout_constraintTop_toTopOf="@+id/call_119" />
 
     <ImageButton
         android:id="@+id/call_110"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="#03A9F4"
         app:layout_constraintDimensionRatio="W,1:1"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toBottomOf="@+id/call_119"
-        android:background="#03A9F4" />
+        app:layout_constraintTop_toBottomOf="@+id/call_119" />
 
     <ImageButton
         android:id="@+id/call_120"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="#8BC34A"
         app:layout_constraintDimensionRatio="W,1:1"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/call_119"
-        android:background="#8BC34A" />
+        app:layout_constraintTop_toBottomOf="@+id/call_119" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
@@ -199,8 +199,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="119"
-        android:textSize="50dp"
         android:textColor="#FFFFFF"
+        android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/call_119"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
@@ -211,8 +211,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SOS"
-        android:textSize="50dp"
         android:textColor="#FFFFFF"
+        android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/call_sos"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toEndOf="@+id/call_119"
@@ -223,8 +223,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="120"
-        android:textSize="50dp"
         android:textColor="#FFFFFF"
+        android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/call_120"
         app:layout_constraintEnd_toStartOf="@+id/call_110"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
@@ -235,8 +235,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="110"
-        android:textSize="50dp"
         android:textColor="#FFFFFF"
+        android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/call_110"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
