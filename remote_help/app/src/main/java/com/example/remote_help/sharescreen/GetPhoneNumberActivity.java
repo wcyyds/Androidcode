@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.remote_help.MainActivity;
 import com.example.remote_help.Person;
@@ -22,7 +23,7 @@ public class GetPhoneNumberActivity extends AppCompatActivity {
 
     private Person person = Person.getInstance();
 
-    private Button button;
+    private ImageButton button;
 
     private EditText editText;
 
@@ -39,7 +40,7 @@ public class GetPhoneNumberActivity extends AppCompatActivity {
         isPersonData();
 
         editText = (EditText) findViewById(R.id.editText);
-        button = (Button) findViewById(R.id.button);
+        button = (ImageButton) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

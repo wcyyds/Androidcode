@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         //cityList.sendRequestWithOkHttp();
 
+        initbaidu();
     }
 
     private void initbaidu(){
