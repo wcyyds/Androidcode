@@ -1,7 +1,12 @@
 package com.example.busquery2.OkHttp;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
+import com.example.busquery2.GSON.BusRoutesGson.Bus;
+import com.example.busquery2.GSON.BusRoutesGson.ReturlListBusBean;
 import com.example.busquery2.GSON.CityListGson.City;
 import com.google.gson.Gson;
 
@@ -18,6 +23,20 @@ public class BusRoutes {
 
     private static final String TAG = "BUSROUTES";
 
+    private String busnumber;
+
+    private String citynumber;
+
+    private Handler handler;
+
+    private ReturlListBusBean busid;
+
+    public BusRoutes(String citynumber,String busnumber, Handler handler) {
+        this.busnumber = busnumber;
+        this.citynumber = citynumber;
+        this.handler = handler;
+    }
+
     public void sendRequestWithOkHttp() {
         Log.d(TAG, "sendRequestWithOkHttp: 进入到方法sendRequestWithOkHttp");
         new Thread(new Runnable() {
@@ -26,8 +45,12 @@ public class BusRoutes {
                 try {
                     Log.d(TAG, "run: 进入");
                     OkHttpClient client = new OkHttpClient();
+                    Log.d(TAG, "run: " + busnumber);
                     Request request = new Request.Builder()
-                            .url("http://api.wxbus163.cn/z_busapi/BusApi.php?optype=city&uname=18991377839")
+                            .url("http://api.wxbus163.cn/z_busapi/BusApi.php?optype=luxian&uname=18991377839" +
+                                    "&cityid=" + citynumber +
+                                    "&keywords=" + busnumber +
+                                    "&keySecret=eae5d76f1e671e1b68d226af16e04063")
                             .build();
                     client.newCall(request).enqueue(new Callback() {
                         @Override
@@ -51,6 +74,16 @@ public class BusRoutes {
 
     private void parseJSONWithGSON(String jsonData) {
         Gson gson = new Gson();
-        //city = gson.fromJson(jsonData, City.class);
+        Bus bus = gson.fromJson(jsonData, Bus.class);
+
+        Message message = new Message();
+        message.what = 3;
+        Bundle bundle = new Bundle();
+        bundle.putString("busLinestridkey",bus.getReturlList().get(0).getBusLinestrid());
+        bundle.putString("busLinenumkey",bus.getReturlList().get(0).getBusLinenum());
+        bundle.putString("busStanamekey",bus.getReturlList().get(0).getBusStaname());
+        message.setData(bundle);
+        handler.sendMessage(message);
+
     }
 }

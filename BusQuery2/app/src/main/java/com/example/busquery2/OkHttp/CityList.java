@@ -30,7 +30,7 @@ public class CityList {
 
     private String Nowcity;
 
-    private String NowcityId;
+    private String NowcityId = "";
 
     private Handler handler;
 

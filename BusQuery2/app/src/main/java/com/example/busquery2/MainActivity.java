@@ -25,8 +25,11 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.blankj.utilcode.util.AppUtils;
+import com.example.busquery2.GSON.BusRoutesGson.ReturlListBusBean;
 import com.example.busquery2.GSON.CityListGson.City;
 import com.example.busquery2.GSON.CityListGson.ReturlListCityBean;
+import com.example.busquery2.GSON.RealTimeLocation.Location;
+import com.example.busquery2.GSON.RealTimeLocation.StationsLocationBean;
 import com.example.busquery2.OkHttp.BusRoutes;
 import com.example.busquery2.OkHttp.CityList;
 import com.example.busquery2.OkHttp.DepartureTimetable;
@@ -36,6 +39,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingDeque;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -61,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
     public LocationClient mLocationClient;
 
-    private TextView positionText;
-
     private TextView busmessage;
 
     private ImageButton getbusnumber;
@@ -70,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText busnumber;
 
     private String nowbusnumber;
+
+    private StringBuffer message = new StringBuffer();
+
+    private ReturlListBusBean busid = new ReturlListBusBean();
 
     private final Handler handler = new Handler(){
         @Override
@@ -86,10 +92,22 @@ public class MainActivity extends AppCompatActivity {
                     //在这里接收所在城市id
                     Bundle bundle1 = message.getData();
                     Nowcitynumber = bundle1.getString("nowcityidkey");
-                    Log.d(TAG, "handleMessage: " + Nowcitynumber);
+                    Log.d(TAG, "handleMessage2: " + Nowcitynumber);
                     break;
                 case 3:
                     //在这里接收需要的路线
+                    Bundle bundle2 = message.getData();
+                    busid.setBusLinestrid(bundle2.getString("busLinestridkey"));
+                    busid.setBusLinenum(bundle2.getString("busLinenumkey"));
+                    busid.setBusStaname(bundle2.getString("busStanamekey"));
+                    Log.d(TAG, "handleMessage3: " + busid.getBusLinenum());
+                    initRealTimeLocation();
+                    break;
+                case 4:
+                    //在这里处理
+                    Bundle bundle3 = message.getData();
+                    parseLocation(bundle3.getString("buslocationkey"));
+                    Log.d(TAG, "handleMessage:4 " + bundle3.getString("buslocationkey"));
                     break;
                 default:
                     break;
@@ -111,18 +129,35 @@ public class MainActivity extends AppCompatActivity {
         initbaidu();
 
         busnumber = (EditText) findViewById(R.id.busnumber);
+        busmessage = (TextView) findViewById(R.id.textView);
 
         getbusnumber = (ImageButton) findViewById(R.id.getbusnumber);
         getbusnumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 nowbusnumber = busnumber.getText().toString();
+                initBusRoutes();
             }
         });
     }
 
+    private void parseLocation(String jsonData){
+        Gson gson = new Gson();
+        Location location = gson.fromJson(jsonData, Location.class);
+        for(StationsLocationBean re :location.getReturlList().getStations()){
+            message.append(re.getBusStaname() + "\n");
+        }
+        busmessage.setText(message);
+    }
+
+    private void initRealTimeLocation(){
+        realTimeLocation = new RealTimeLocation(busid,Nowcitynumber,handler);
+        realTimeLocation.sendRequestWithOkHttp();
+    }
+
     private void initBusRoutes(){
-        
+        busRoutes = new BusRoutes(Nowcitynumber,nowbusnumber,handler);
+        busRoutes.sendRequestWithOkHttp();
     }
 
 
@@ -238,7 +273,6 @@ public class MainActivity extends AppCompatActivity {
                     }else if(bdLocation.getLocType() == BDLocation.TypeGpsLocation) {
                         currentPosition.append("网络");
                     }
-                    positionText.setText(currentPosition);
                     Log.d("123", "获得的gps信息: " + currentPosition);
                 }
             });
