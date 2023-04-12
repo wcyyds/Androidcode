@@ -2,6 +2,7 @@ package com.example.busquery2;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -10,7 +11,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +27,10 @@ import com.baidu.location.LocationClientOption;
 import com.blankj.utilcode.util.AppUtils;
 import com.example.busquery2.GSON.CityListGson.City;
 import com.example.busquery2.GSON.CityListGson.ReturlListCityBean;
+import com.example.busquery2.OkHttp.BusRoutes;
 import com.example.busquery2.OkHttp.CityList;
+import com.example.busquery2.OkHttp.DepartureTimetable;
+import com.example.busquery2.OkHttp.RealTimeLocation;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -38,10 +47,55 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN";
 
-    CityList cityList = new CityList();
+    CityList cityList;
+
+    BusRoutes busRoutes;
+
+    DepartureTimetable departureTimetable;
+
+    RealTimeLocation realTimeLocation;
+
+    public String Nowcity = null;
+
+    private String Nowcitynumber = null;
 
     public LocationClient mLocationClient;
+
     private TextView positionText;
+
+    private TextView busmessage;
+
+    private ImageButton getbusnumber;
+
+    private EditText busnumber;
+
+    private String nowbusnumber;
+
+    private final Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message message) {
+            super.handleMessage(message);
+            switch (message.what){
+                case 1:
+                    //在这里接收所在城市
+                    Bundle bundle = message.getData();
+                    Nowcity = bundle.getString("nowcitykey");
+                    initCityId();
+                    break;
+                case 2:
+                    //在这里接收所在城市id
+                    Bundle bundle1 = message.getData();
+                    Nowcitynumber = bundle1.getString("nowcityidkey");
+                    Log.d(TAG, "handleMessage: " + Nowcitynumber);
+                    break;
+                case 3:
+                    //在这里接收需要的路线
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -51,12 +105,31 @@ public class MainActivity extends AppCompatActivity {
 
 
         for (int i = 0; i < AppUtils.getAppSignaturesSHA1().size(); i++) {
-            Log.d(TAG, "onCreate: " + AppUtils.getAppSignaturesSHA1().get(i));
+            Log.d(TAG, "onCreate: SHA1:" + AppUtils.getAppSignaturesSHA1().get(i));
         }
 
-        //cityList.sendRequestWithOkHttp();
-
         initbaidu();
+
+        busnumber = (EditText) findViewById(R.id.busnumber);
+
+        getbusnumber = (ImageButton) findViewById(R.id.getbusnumber);
+        getbusnumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowbusnumber = busnumber.getText().toString();
+            }
+        });
+    }
+
+    private void initBusRoutes(){
+        
+    }
+
+
+    private void initCityId(){
+        Log.d(TAG, "onCreate: 获取的目前所在城市" + Nowcity);
+        cityList = new CityList(Nowcity,handler);
+        cityList.sendRequestWithOkHttp();
     }
 
     private void initbaidu(){
@@ -68,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
         }
         mLocationClient.registerLocationListener(new MyLocationListener());
         setContentView(R.layout.activity_main);
-        positionText = (TextView) findViewById(R.id.position_text_view);
         List<String> permissionList = new ArrayList<>();
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)!=
                 PackageManager.PERMISSION_GRANTED){
@@ -84,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
             requestLocation();
         }
     }
-
 
     private void requestLocation(){
         initLocation();
@@ -128,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
             default:
         }
     }
+
     public class MyLocationListener implements BDLocationListener {
 
         @Override
@@ -143,6 +215,16 @@ public class MainActivity extends AppCompatActivity {
                     currentPosition.append("国家：").append(bdLocation.getCountryCode()).append("\n");
                     currentPosition.append("省：").append(bdLocation.getProvince()).append("\n");
                     currentPosition.append("市:").append(bdLocation.getCity()).append("\n");
+                    Log.d(TAG, "run: 123" + bdLocation.getCity());
+
+                    Message message = new Message();
+                    message.what = 1;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("nowcitykey",bdLocation.getCity());
+                    message.setData(bundle);
+                    handler.sendMessage(message);
+
+
                     currentPosition.append("区:").append(bdLocation.getDistrict()).append("\n");
                     currentPosition.append("乡镇:").append(bdLocation.getTown()).append("\n");
                     currentPosition.append("街道:").append(bdLocation.getStreet()).append("\n");
@@ -162,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+
 
 
 

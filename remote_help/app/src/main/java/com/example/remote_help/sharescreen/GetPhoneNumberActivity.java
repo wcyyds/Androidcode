@@ -72,7 +72,6 @@ public class GetPhoneNumberActivity extends AppCompatActivity {
         Log.d(TAG, "isPersonData: 开机检测是否收到,本地传来的值" + userid);
         Log.d(TAG, "isPersonData: 开机检测是否收到,本地传来的值" + person.getUserID());
 
-
         //这个现在不能读取
         if(person.getUserID() != ""){
             Log.d(TAG, "isPersonData: 检测已经记录过了本机号码,直接跳过并且该活动,进入到下一项" + userid);
@@ -83,5 +82,7 @@ public class GetPhoneNumberActivity extends AppCompatActivity {
     private void startMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
+
 }

@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -18,7 +20,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.remote_help.recycle.Family;
@@ -44,11 +48,65 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton delete;
 
+    private ImageButton call_119;
+    private ImageButton call_120;
+    private ImageButton call_110;
+    private ImageButton call_sos;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+        String userid = sharedPreferences.getString("userid", "");
+        TextView textView = (TextView) findViewById(R.id.phone);
+        textView.setText(userid);
+
+        call_119 = (ImageButton) findViewById(R.id.call_119);
+        call_120 = (ImageButton) findViewById(R.id.call_120);
+        call_110 = (ImageButton) findViewById(R.id.call_110);
+        call_sos = (ImageButton) findViewById(R.id.call_sos);
+
+        call_119.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callPhone("119");
+            }
+        });
+
+        call_110.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callPhone("110");
+            }
+        });
+
+        call_120.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callPhone("120");
+            }
+        });
+
+        call_sos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext());
+                dialog.setTitle("这是一个警告");
+                dialog.setMessage("你还没有添加紧急联系人");
+                dialog.setCancelable(false);
+                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                dialog.show();
+            }
+        });
+
+
 
         Log.d(TAG, "onCreate: 这是测试活动的开关");
 
@@ -81,6 +139,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    //传入电话号码,直接开始打电话
+    public void callPhone(String phoneNum){
+
+        Intent intent = new Intent(Intent.ACTION_CALL);
+
+        Uri data = Uri.parse("tel:" + phoneNum);
+
+        intent.setData(data);
+
+        startActivity(intent);
+
     }
 
     //开启服务,不关闭活动就一直获取电话号码

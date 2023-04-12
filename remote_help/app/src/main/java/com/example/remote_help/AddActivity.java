@@ -46,6 +46,7 @@ public class AddActivity extends AppCompatActivity {
                 Log.d("sqladdfamily", "onClick: 手机号" + phone);
                 Log.d("sqladdfamily", "onClick: 这里已经把名字和手机号截取到了");
                 operate.addSQL(name,phone);
+                finish();
             }
         });
     }
