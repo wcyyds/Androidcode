@@ -85,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     //在这里接收所在城市
                     Bundle bundle = message.getData();
-                    Nowcity = bundle.getString("nowcitykey");
+                    //Nowcity = bundle.getString("nowcitykey");
+                    Nowcity = "西安市";
+                    Log.d("定位城市", "handleMessage: " + Nowcity);
                     initCityId();
                     break;
                 case 2:
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
         initbaidu();
 
-        busnumber = (EditText) findViewById(R.id.busnumber);
+        busnumber =  findViewById(R.id.busnumber);
         busmessage = (TextView) findViewById(R.id.textView);
 
         getbusnumber = (ImageButton) findViewById(R.id.getbusnumber);
