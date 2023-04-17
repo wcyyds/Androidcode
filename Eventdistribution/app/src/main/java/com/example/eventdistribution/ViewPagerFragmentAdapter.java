@@ -30,4 +30,6 @@ public class ViewPagerFragmentAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return fragments.size();
     }
+
+
 }

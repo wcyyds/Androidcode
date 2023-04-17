@@ -1,7 +1,6 @@
 package com.example.eventdistribution;
 
-public class ViewPager {
-
+public class Recycleview {
     private int image;
 
     public int getImage() {
@@ -12,7 +11,7 @@ public class ViewPager {
         this.image = image;
     }
 
-    public ViewPager(int image) {
+    public Recycleview(int image) {
         this.image = image;
     }
 }
