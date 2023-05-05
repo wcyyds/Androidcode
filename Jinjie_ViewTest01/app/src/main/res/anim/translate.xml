@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true">
+<!--    android:fillAfter="true" 是动画完成之后是否保持当前状态,默认为false-->
+    <translate
+        android:duration="2000"
+        android:fromXDelta="0"
+        android:repeatCount="3"
+        android:toXDelta="300"/>
+<!--    android:duration="2000" 这是动画的持续时间
+        android:repeatCount="3" 动画的重复次数
+        android:fromXDelta="0"  android:toXDelta="300" 沿着X轴向右平移300像素-->
+</set>

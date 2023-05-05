@@ -6,10 +6,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Scroller;
 
 import androidx.annotation.Nullable;
 
 public class CustomView extends androidx.appcompat.widget.AppCompatButton {
+
+    Scroller mScroller;
 
     public static final String TAG = "CustomView";
 
@@ -19,6 +22,7 @@ public class CustomView extends androidx.appcompat.widget.AppCompatButton {
 
     public CustomView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mScroller = new Scroller(context);
     }
 
     public CustomView(Context context) {
@@ -51,6 +55,7 @@ public class CustomView extends androidx.appcompat.widget.AppCompatButton {
                 break;
             case  MotionEvent.ACTION_UP:
                 Log.d(TAG, "onTouchEvent: ACTION_UP333");
+                //这里就可以证明这个layout方法是把bottom本身的属性一起变更的,不是只是动画变更了
                 break;
         }
         return true;
