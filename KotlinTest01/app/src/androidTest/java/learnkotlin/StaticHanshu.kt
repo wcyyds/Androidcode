@@ -1,0 +1,4 @@
+package learnkotlin
+
+class StaticHanshu {
+}
