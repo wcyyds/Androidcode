@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.example.databindinglearntest05java.ObSwordsman"/>
         <variable
             name="obswordsman"
-            type="com.example.databindinglearntest05java.ObSwordsman" />
+            type="ObSwordsman" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,16 +18,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="50dp"
             android:text="@{obswordsman.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <EditText
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{obswordsman.level}"
+            android:text="@={obswordsman.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
