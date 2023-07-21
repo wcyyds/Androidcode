@@ -1,5 +1,6 @@
 package com.example.recyclerview;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recyclerview.Fruit;
 import com.example.recyclerview.R;
+import com.example.recyclerview.databinding.FruitItemBinding;
 
 import java.util.List;
 
@@ -25,8 +27,20 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.ViewHolder> 
         ImageView fruitImage;
         TextView fruitName;
 
+
+
         public ViewHolder(View view) {
             super(view);
+
+            FruitItemBinding itemBinding = null;
+
+            Log.d("wangceshi01","1111" + view.getContext().toString());
+            Log.d("wangceshi02","2222" + LayoutInflater.from(view.getContext()).toString());
+            Log.d("wangceshi03","333" + itemBinding.inflate(LayoutInflater.from(view.getContext()), (ViewGroup) view,false).toString());
+            //LayoutInflater.from(view.getContext()).toString()这个会创建一个新的视图
+            Log.d("wangceshi04","444" + view.toString());
+
+            Log.d("wangceshi04","555" + itemBinding.bind(view).toString());
             fruitView = view;
             fruitImage = (ImageView) view.findViewById(R.id.fruit_image);
             fruitName = (TextView) view.findViewById(R.id.fruit_name);
@@ -38,8 +52,11 @@ public class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fruit_item,parent,false);
+
+
         final ViewHolder holder = new ViewHolder(view);
         holder.fruitView.setOnClickListener(new View.OnClickListener(){
            public void onClick(View v){
