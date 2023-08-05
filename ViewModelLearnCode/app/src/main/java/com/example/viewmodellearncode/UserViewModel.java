@@ -34,7 +34,7 @@ public class UserViewModel extends ViewModel {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                String userName = "nihao";
+                String userName = "11111111nihao1111111";
                 return userName;
             }
         }.execute();
