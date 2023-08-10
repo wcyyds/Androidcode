@@ -1,19 +1,15 @@
 package com.example.secondproject.ui.home
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.secondproject.data.BaseResponse
 import com.example.secondproject.data.RetrofitBuilder
 import com.example.secondproject.data.RetrofitBuilder.dataConvert
-import com.example.secondproject.data.article.Article
+import com.example.secondproject.data.article.Articleslist
 import com.example.secondproject.data.banner.Banner
-import com.example.secondproject.data.banner.BannerItem
 import com.example.secondproject.data.http.api
 import kotlinx.coroutines.launch
-import org.w3c.dom.Node
 
 class HomeViewModel : ViewModel() {
 
@@ -32,7 +28,7 @@ class HomeViewModel : ViewModel() {
                 /*请求异常的话在这里处理*/
                 e.printStackTrace()
 
-                Log.i("请求失败", "${e.message}")
+                Log.i("banner请求失败", "${e.message}")
             }
         }
     }
@@ -45,7 +41,7 @@ class HomeViewModel : ViewModel() {
         return banner
     }
 
-    var article = MutableLiveData<Article>()
+    var article = MutableLiveData<Articleslist>()
     fun getArticles() {
         /*viewModelScope是一个绑定到当前viewModel的作用域  当ViewModel被清除时会自动取消该作用域，所以不用担心内存泄漏为问题*/
         viewModelScope.launch {
@@ -59,7 +55,7 @@ class HomeViewModel : ViewModel() {
                 /*请求异常的话在这里处理*/
                 e.printStackTrace()
 
-                Log.i("请求失败", "${e.message}")
+                Log.i("article请求失败", "${e.message}")
             }
         }
     }

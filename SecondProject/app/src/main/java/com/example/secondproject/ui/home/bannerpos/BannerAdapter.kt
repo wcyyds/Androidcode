@@ -26,7 +26,6 @@ class BannerAdapter(val banner: Banner, val activity: Activity)
         LogUtil.d("BannerAdapter","onCreateViewHolder")
         val binding = BannerItemBinding.inflate(LayoutInflater.from(parent.context)
             ,parent, false)
-        val viewHolder = BannerViewHolder(binding)
 
         return BannerViewHolder(binding)
 
