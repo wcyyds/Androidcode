@@ -1,5 +1,6 @@
 package com.example.secondproject.data.banner
 
+
 data class BannerItem(
     val desc: String,
     val id: Int,

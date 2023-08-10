@@ -1,29 +1,28 @@
 package com.example.secondproject.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.secondproject.PostRequest_Interface
-import com.example.secondproject.Translation1
+import androidx.viewpager2.widget.ViewPager2
+import com.example.secondproject.LogUtil
 import com.example.secondproject.databinding.FragmentHomeBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.secondproject.ui.home.bannerpos.BannerAdapter
+
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
+
+    //轮播图的位置属性
+    private var currentPos = 0
+
+    //轮播图的数量+2
+    private var currentDis = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,46 +35,34 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        homeViewModel.getBanners();
 
-        homeViewModel.getFictions();
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                LogUtil.d("HomeFragment onPageSelected","轮播图的位置" +  position)
+                currentPos = position
+            }
 
-        val textViewTest: TextView = binding.textViewtest
-
-        homeViewModel.banner.observe(viewLifecycleOwner, Observer {
-            textViewTest.text = it.toString()
+            override fun onPageScrollStateChanged(state: Int) {
+                if (state == ViewPager2.SCROLL_STATE_IDLE && currentPos == currentDis-1) {
+                    LogUtil.d("HomeFragment onPageScrollStateChanged", "轮播更新")
+                    binding.viewPager.setCurrentItem(1, false)
+                }
+                if (state == ViewPager2.SCROLL_STATE_IDLE && currentPos == 0 ) {
+                    LogUtil.d("HomeFragment onPageScrollStateChanged", "轮播更新")
+                    binding.viewPager.setCurrentItem(currentDis-2, false)
+                }
+            }
         })
 
-//        Log.d("main111", "444441")
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("https://ifanyi.iciba.com/")
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//        val postrequestInterface = retrofit.create(PostRequest_Interface::class.java)
-//        val map:MutableMap<String, Any> = HashMap()
-//        map["from"] = "zh"
-//        map["to"] = "en"
-//        map["q"] = "你好世界"
-//        postrequestInterface.getCall(map).enqueue(object : Callback<Translation1> {
-//            override fun onResponse(call: Call<Translation1>, response: Response<Translation1>) {
-//                val translation = response.body()
-//                if(translation != null){
-//                    Log.d("main111", "99999" + translation.status)
-//                    Log.d("main111", "99999" + translation.content.out)
-//                }
-//
-//            }
-//
-//            override fun onFailure(call: Call<Translation1>, t: Throwable) {
-//                Log.d("main111", "55555" + t.toString())
-//                Log.d("main111", "55555" + t.message)
-//            }
-//
-//        })
-
+        homeViewModel.banner.observe(viewLifecycleOwner, Observer {
+            val bannerAdapter = activity?.let { it1 -> BannerAdapter(it, it1) }
+            currentDis = it.size
+            LogUtil.d("HomeFragment" ,"轮播图的数量+2:" + currentDis)
+            //在得到了数据之后,进行适配器的设置
+            binding.viewPager.setAdapter(bannerAdapter)
+            binding.viewPager.setCurrentItem(1,false)
+        })
 
         return root
     }
@@ -83,5 +70,9 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun initBanner(){
+
     }
 }
