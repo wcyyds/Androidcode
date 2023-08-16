@@ -7,7 +7,7 @@ import com.example.secondproject.data.banner.Banner
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface api{
+interface ApiService{
 
     @GET("banner/json")
     suspend fun getBanner(): BaseResponse<Banner>
