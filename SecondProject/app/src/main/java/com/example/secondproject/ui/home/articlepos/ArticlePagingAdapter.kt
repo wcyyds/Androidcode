@@ -12,6 +12,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.secondproject.LogUtil
+import com.example.secondproject.MyApplication
 import com.example.secondproject.R
 import com.example.secondproject.data.article.Article
 import com.example.secondproject.databinding.ArticleItemBinding
@@ -92,9 +93,13 @@ class ArticlePagingAdapter(
 
         holder.articleText.setOnClickListener {
             LogUtil.d("onBindViewHolder", "用户点击主页进入的网址" + position)
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(article?.link ?: null)
-            mainactivity.startActivity(intent)
+//            val intent = Intent(Intent.ACTION_VIEW)
+//            intent.data = Uri.parse(article?.link ?: null)
+//            mainactivity.startActivity(intent)
+
+            //在这里使用webview进行应用内的跳转
+            listener?.getPosition(position, article.link)
+
         }
         holder.collection.setOnClickListener {
             LogUtil.d("onBindViewHolder", "用户点击按钮的标题: " + article!!.title)
@@ -126,7 +131,6 @@ class ArticlePagingAdapter(
                 holder.collection.setImageResource(R.drawable.ic_collect)
 
             }
-            listener?.getPosition(position, article.id)
         }
     }
 

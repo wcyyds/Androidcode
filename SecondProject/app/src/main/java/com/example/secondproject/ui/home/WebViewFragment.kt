@@ -1,19 +1,22 @@
-package com.example.secondproject.ui.dashboard
+package com.example.secondproject.ui.home
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.secondproject.R
 import com.example.secondproject.databinding.FragmentDashboardBinding
+import com.example.secondproject.databinding.FragmentWebViewBinding
+import com.example.secondproject.ui.dashboard.DashboardViewModel
 
-class DashboardFragment : Fragment() {
+//webview的简单的演示碎片
+class WebViewFragment(val url: String) : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentWebViewBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -24,22 +27,17 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentWebViewBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-
-        val webView: WebView = binding.webview
+        val webView: WebView = binding.articlewebview
         webView.settings.javaScriptEnabled = true
         webView.webViewClient = WebViewClient()
-        webView.loadUrl("https://mp.weixin.qq.com/s/4eWuPTEw4Sgpi2VlBwWCUw")
+        webView.loadUrl(url)
 
+
+        // Inflate the layout for this fragment
         return root
     }
 
@@ -47,4 +45,6 @@ class DashboardFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
