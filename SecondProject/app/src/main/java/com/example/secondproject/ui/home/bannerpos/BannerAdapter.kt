@@ -32,8 +32,6 @@ class BannerAdapter(val banner: Banner, val activity: Activity)
     }
 
     override fun getItemCount(): Int {
-        LogUtil.d("BannerAdapter","getItemCount" + banner.size)
-
         return banner.size
     }
 

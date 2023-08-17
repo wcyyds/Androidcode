@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.secondproject.LogUtil
 import com.example.secondproject.data.article.Articleslist
 import com.example.secondproject.databinding.ArticleItemBinding
+import com.example.secondproject.ui.home.articlepos.RoomArticle.ArticleCollectionDao
 
 class ArticleAdapter(val article: Articleslist, val activity: Activity) : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
 

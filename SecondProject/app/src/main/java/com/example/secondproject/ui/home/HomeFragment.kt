@@ -9,20 +9,23 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.secondproject.LogUtil
 import com.example.secondproject.data.article.Article
 import com.example.secondproject.databinding.FragmentHomeBinding
-import com.example.secondproject.ui.home.articlepos.ArticleAdapter
 import com.example.secondproject.ui.home.articlepos.ArticlePagingAdapter
+import com.example.secondproject.ui.home.articlepos.OnItemClickListener
+import com.example.secondproject.ui.home.articlepos.RoomArticle.ArticleCollection
+import com.example.secondproject.ui.home.articlepos.RoomArticle.ArticleCollectionDao
+import com.example.secondproject.ui.home.articlepos.RoomArticle.ArticleDatabase
 import com.example.secondproject.ui.home.bannerpos.BannerAdapter
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
+
+    private var articleCollectionDao: ArticleCollectionDao? = null
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -44,6 +47,8 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        articleCollectionDao = activity?.let { ArticleDatabase.getDatabase(it).articleCollectionDao() }
+
         initBanner(homeViewModel)
         initArticle(homeViewModel)
 
@@ -53,6 +58,8 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        //在这里进行room数据库的放入存到外存中
+
     }
 
     //轮播图的初始化及其使用
@@ -89,15 +96,27 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun initArticle(homeViewModel: HomeViewModel) {
 
-        val layoutManager = LinearLayoutManager(activity)
-        binding.articlerecycleview.layoutManager = layoutManager
-        val articlePagingAdapter = ArticlePagingAdapter()
-        binding.articlerecycleview.adapter = articlePagingAdapter
+    suspend fun getArticleRoom(articleCollectionDao: ArticleCollectionDao?): List<ArticleCollection> {
+        //这里写一个挂起函数,然后进行room的读取
+        return articleCollectionDao!!.loadAllArticleCollection()
+    }
+    private fun initArticle(homeViewModel: HomeViewModel) {
         lifecycleScope.launch {
+
+            val articlelistroom = getArticleRoom(articleCollectionDao)
+
+            val layoutManager = LinearLayoutManager(activity)
+            binding.articlerecycleview.layoutManager = layoutManager
+            val articlePagingAdapter = ArticlePagingAdapter(requireActivity(), articlelistroom,articleCollectionDao!!)
+            binding.articlerecycleview.adapter = articlePagingAdapter
+            articlePagingAdapter.setOnItemClickListener(object : OnItemClickListener{
+                override fun getPosition(position: Int, id: Int) {
+                    LogUtil.d("getPosition","111" )
+                }
+            })
             homeViewModel.getPagingData().collect { value: PagingData<Article> ->
-                articlePagingAdapter.submitData(value)
+                articlePagingAdapter?.submitData(value)
             }
         }
 

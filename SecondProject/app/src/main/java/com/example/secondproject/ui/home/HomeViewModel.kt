@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.secondproject.LogUtil
 import com.example.secondproject.data.RetrofitBuilder
 import com.example.secondproject.data.RetrofitBuilder.dataConvert
 import com.example.secondproject.data.article.Article
@@ -13,6 +14,8 @@ import com.example.secondproject.data.article.Articleslist
 import com.example.secondproject.data.banner.Banner
 import com.example.secondproject.data.http.ApiService
 import com.example.secondproject.ui.home.articlepos.Repository
+import com.example.secondproject.ui.home.articlepos.RoomArticle.ArticleCollection
+import com.example.secondproject.ui.home.articlepos.RoomArticle.ArticleCollectionDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -38,10 +41,10 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun automaticRotation(banner: Banner): Banner{
+    fun automaticRotation(banner: Banner): Banner {
         var lastNode = banner.last()
         var firstNode = banner.first()
-        banner.add(0,lastNode)
+        banner.add(0, lastNode)
         banner.add(banner.size, firstNode)
         return banner
     }
@@ -65,12 +68,12 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-
-
     fun getPagingData(): Flow<PagingData<Article>> {
         return Repository.getPagingData().cachedIn(viewModelScope)
         //cachedIn()函数，这是用于将服务器返回的数据在viewModelScope这个作用域内进行缓存
     }
 
-
 }
+
+
+
