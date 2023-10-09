@@ -58,13 +58,15 @@ fun run(){
     //OK的http请求的客户端类,配置超时时间,缓存目录,拦截器等
     //这里只是添加了一个自定义的网络拦截器
     val okHttpClient = OkHttpClient.Builder()
-        .addNetworkInterceptor(ProgressInterceptor(progressListener))
+        .addInterceptor(ProgressInterceptor(progressListener))
         .build()
 
     //封装了响应数据的报文信息
     val response = okHttpClient.newCall(request).execute()
 
-    println(response.body?.string())
+    val responsedata = response.body?.string()
+
+    //println(responsedata)
 
 }
 
@@ -113,7 +115,6 @@ class ProgressResponseBody constructor
     private fun lister(source: Source): Source{
         return object :ForwardingSource(source){
             var totalBytesRead: Long = 0L;
-
             override fun read(sink: Buffer, byteCount: Long): Long {
                 //调用了父类的 read() 方法来读取数据，并将返回值（即实际读取的字节数）保存到 bytesRead 变量中。
                 // 然后，通过判断 bytesRead 是否等于 -1，来判断是否已经读取完了所有的数据。
@@ -127,7 +128,5 @@ class ProgressResponseBody constructor
                 return bytesRead
             }
         }
-
     }
-
 }

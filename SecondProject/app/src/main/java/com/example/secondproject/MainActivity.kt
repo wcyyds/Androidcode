@@ -1,6 +1,9 @@
 package com.example.secondproject
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -32,6 +35,11 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        val handler = object : Handler(Looper.getMainLooper()){
+            override fun handleMessage(msg: Message) {
+            }
+        }
     }
 
     private fun replaceFragment(fragment: Fragment){
