@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#DADADA"/>
+    <corners android:radius="15dp"/> <!-- 半径足够大，接近ImageView的宽度或高度，得到圆形 -->
+</shape>
