@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/control_light_img_red"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@mipmap/c_light_red"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/control_light_img_white"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@mipmap/c_light_white"
+        app:layout_constraintStart_toEndOf="@+id/control_light_img_red"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/control_light_img_green"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@mipmap/c_light_green"
+        app:layout_constraintStart_toEndOf="@+id/control_light_img_white"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/control_light_img_yellow"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@mipmap/c_light_yellow"
+        app:layout_constraintStart_toEndOf="@+id/control_light_img_green"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="红灯"
+        android:textColor="#FF0000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/control_light_img_red"
+        app:layout_constraintStart_toStartOf="@+id/control_light_img_red"
+        app:layout_constraintTop_toBottomOf="@+id/control_light_img_red" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="白灯"
+        android:textColor="#1B93D8"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/control_light_img_white"
+        app:layout_constraintStart_toEndOf="@+id/control_light_img_red"
+        app:layout_constraintTop_toBottomOf="@+id/control_light_img_white" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="绿灯"
+        android:textColor="#45B97C"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/control_light_img_green"
+        app:layout_constraintStart_toEndOf="@+id/control_light_img_white"
+        app:layout_constraintTop_toBottomOf="@+id/control_light_img_green" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="黄灯"
+        android:textColor="#857C00"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/control_light_img_yellow"
+        app:layout_constraintStart_toEndOf="@+id/control_light_img_green"
+        app:layout_constraintTop_toBottomOf="@+id/control_light_img_yellow" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="继电器"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/control_relay_img"
+        app:layout_constraintStart_toStartOf="@+id/control_relay_img"
+        app:layout_constraintTop_toBottomOf="@+id/control_relay_img" />
+
+    <ImageView
+        android:id="@+id/control_relay_img"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@mipmap/c_relay_off"
+        app:layout_constraintStart_toEndOf="@+id/control_light_img_yellow"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="剩余金额："
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/moneytext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="34sp"
+        app:layout_constraintStart_toEndOf="@+id/money"
+        app:layout_constraintTop_toTopOf="@+id/money" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="模拟调光："
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/money" />
+
+    <ImageView
+        android:id="@+id/lightview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/light_001"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/money" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+</androidx.constraintlayout.widget.ConstraintLayout>
