@@ -1,6 +1,5 @@
 package com.example.secondproject.ui.study.articlepos
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -57,15 +56,13 @@ class ArticlePagingAdapter(
 
         var article = getItem(position)
         var articleCollection =
-            ArticleCollection(article!!.shareUser, article!!.title, article.id)
+            ArticleCollection(article!!.shareUser, article.title, article.id, article.link)
 
-        if (article != null) {
-            holder.shareuserText.setText(article.shareUser)
-            holder.niceshareText.setText(article.niceShareDate)
-            holder.articleText.setText(article.title)
-            holder.superchapterText.setText(article.superChapterName)
-            holder.chapterText.setText(article.chapterName)
-        }
+        holder.shareuserText.setText(article.shareUser)
+        holder.niceshareText.setText(article.niceShareDate)
+        holder.articleText.setText(article.title)
+        holder.superchapterText.setText(article.superChapterName)
+        holder.chapterText.setText(article.chapterName)
         //进行一个查找,如果收藏就变collect,如果没有就就是un_collect
         //先进行查询,如果有就不加入,如果没有就加入
 
@@ -91,7 +88,7 @@ class ArticlePagingAdapter(
 
         }
         holder.collection.setOnClickListener {
-            LogUtil.d("onBindViewHolder", "用户点击按钮的标题: " + article!!.title)
+            LogUtil.d("onBindViewHolder", "用户点击按钮的标题: " + article.title)
             //这次只是简单的进行收藏操作
             //先进行查询,如果有就不加入,如果没有就加入
             var dohave: Int? = articleCollectionDao.querArticle(articleCollection.articleid)
