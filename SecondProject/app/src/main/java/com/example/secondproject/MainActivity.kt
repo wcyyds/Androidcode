@@ -12,6 +12,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.secondproject.databinding.ActivityMainBinding
+import com.example.secondproject.ui.study.articlepos.RoomArticle.ArticleCollectionDao
+import com.example.secondproject.ui.study.articlepos.RoomArticle.ArticleDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             override fun handleMessage(msg: Message) {
             }
         }
+
     }
 
     private fun replaceFragment(fragment: Fragment){

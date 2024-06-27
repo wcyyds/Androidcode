@@ -9,18 +9,22 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.secondproject.LogUtil
+import com.example.secondproject.MyApplication
 import com.example.secondproject.R
 import com.example.secondproject.data.article.Article
 import com.example.secondproject.databinding.ArticleItemBinding
 import com.example.secondproject.ui.study.articlepos.RoomArticle.ArticleCollection
 import com.example.secondproject.ui.study.articlepos.RoomArticle.ArticleCollectionDao
+import com.example.secondproject.ui.study.articlepos.RoomArticle.ArticleDatabase
 
 class ArticlePagingAdapter(
-    val articleCollectionDao: ArticleCollectionDao,
 ) :
     PagingDataAdapter<Article, ArticlePagingAdapter.ArticleViewHolder>(COMPARATOR) {
 
     var listener: OnItemClickListener? = null
+
+    val articleCollectionDao: ArticleCollectionDao =
+        ArticleDatabase.getDatabase(MyApplication.context).articleCollectionDao();
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
@@ -68,11 +72,7 @@ class ArticlePagingAdapter(
         var dohave: Int? = articleCollectionDao.querArticle(articleCollection.articleid)
         LogUtil.d(
             "onBindViewHolder",
-            "第一次检测: " + dohave + articleCollection.articleid +"***" + article.id
-        )
-        LogUtil.d(
-            "onBindViewHolder",
-            "第一次检测: " + dohave + articleCollection.articletitle +"***"+ article.title
+            "第一次检测: " + dohave + articleCollection.articletitle + "***" + article.title + "|||" + dohave + articleCollection.articleid + "***" + article.id
         )
         if (dohave == 1) {
             //在这里进行收藏图标的更新
@@ -82,9 +82,10 @@ class ArticlePagingAdapter(
             holder.collection.setImageResource(R.drawable.ic_un_collect)
         }
 
-        holder.articleText.setOnClickListener {
-            LogUtil.d("onBindViewHolder", "用户点击主页进入的网址" + position)
 
+
+        holder.articleText.setOnClickListener {
+            LogUtil.d("onBindViewHolder", "用户点击主页进入的网址)))" + position)
             //在这里使用webview进行应用内的跳转
             listener?.getPosition(position, article.link)
 

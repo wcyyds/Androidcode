@@ -12,6 +12,7 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.secondproject.LogUtil
+import com.example.secondproject.MyApplication
 import com.example.secondproject.R
 import com.example.secondproject.data.article.Article
 import com.example.secondproject.databinding.FragmentHomeBinding
@@ -48,7 +49,8 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        articleCollectionDao = activity?.let { ArticleDatabase.getDatabase(it).articleCollectionDao() }
+        articleCollectionDao =
+            activity?.let { ArticleDatabase.getDatabase(it).articleCollectionDao() }
 
         initBanner(homeViewModel)
         initArticle(homeViewModel)
@@ -96,37 +98,24 @@ class HomeFragment : Fragment() {
         })
     }
 
-
-    suspend fun getArticleRoom(articleCollectionDao: ArticleCollectionDao?): List<ArticleCollection> {
-        //这里写一个挂起函数,然后进行room的读取
-        return articleCollectionDao!!.loadAllArticleCollection()
-    }
     private fun initArticle(homeViewModel: HomeViewModel) {
-        lifecycleScope.launch {
+        homeViewModel.getArticles()
 
-            val articlelistroom = getArticleRoom(articleCollectionDao)
-
-            val layoutManager = LinearLayoutManager(activity)
-            binding.articlerecycleview.layoutManager = layoutManager
-            val articlePagingAdapter = ArticlePagingAdapter(articleCollectionDao!!)
-            binding.articlerecycleview.adapter = articlePagingAdapter
-            //这里是点击了文章后面的回调
-            articlePagingAdapter.setOnItemClickListener(object : OnItemClickListener{
-                override fun getPosition(position: Int, url: String) {
-                    LogUtil.d("getPosition","传回来的URL" + url)
-                    val fragmentManager = activity!!.supportFragmentManager
-                    val transaction = fragmentManager.beginTransaction()
-                    transaction.replace(R.id.webviewLayout, WebViewFragment(url))
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-                }
-
-            })
-            homeViewModel.getPagingData().collect { value: PagingData<Article> ->
-                articlePagingAdapter?.submitData(value)
+        val layoutManager = LinearLayoutManager(activity)
+        binding.articlerecycleview.layoutManager = layoutManager
+        val articlePagingAdapter = ArticlePagingAdapter()
+        binding.articlerecycleview.adapter = articlePagingAdapter
+        //这里是点击了文章后面的回调，跳转webview的Fragment
+        articlePagingAdapter.setOnItemClickListener(object : OnItemClickListener {
+            override fun getPosition(position: Int, url: String) {
+                LogUtil.d("getPosition", "传回来的URL" + url)
+                val fragmentManager = activity!!.supportFragmentManager
+                val transaction = fragmentManager.beginTransaction()
+                transaction.replace(R.id.webviewLayout, WebViewFragment(url))
+                transaction.addToBackStack(null)
+                transaction.commit()
             }
-        }
-
+        })
     }
 
 }
