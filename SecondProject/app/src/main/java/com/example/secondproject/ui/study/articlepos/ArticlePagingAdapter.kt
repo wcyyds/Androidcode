@@ -16,8 +16,6 @@ import com.example.secondproject.ui.study.articlepos.RoomArticle.ArticleCollecti
 import com.example.secondproject.ui.study.articlepos.RoomArticle.ArticleCollectionDao
 
 class ArticlePagingAdapter(
-    val mainactivity: Activity,
-    val articlelistroom: List<ArticleCollection>,
     val articleCollectionDao: ArticleCollectionDao,
 ) :
     PagingDataAdapter<Article, ArticlePagingAdapter.ArticleViewHolder>(COMPARATOR) {
@@ -27,7 +25,6 @@ class ArticlePagingAdapter(
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
     }
-
 
     companion object {
         private val COMPARATOR = object : DiffUtil.ItemCallback<Article>() {
@@ -53,7 +50,6 @@ class ArticlePagingAdapter(
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-
 
         var article = getItem(position)
         var articleCollection =
@@ -88,9 +84,6 @@ class ArticlePagingAdapter(
 
         holder.articleText.setOnClickListener {
             LogUtil.d("onBindViewHolder", "用户点击主页进入的网址" + position)
-//            val intent = Intent(Intent.ACTION_VIEW)
-//            intent.data = Uri.parse(article?.link ?: null)
-//            mainactivity.startActivity(intent)
 
             //在这里使用webview进行应用内的跳转
             listener?.getPosition(position, article.link)
@@ -136,48 +129,6 @@ class ArticlePagingAdapter(
         LogUtil.d("onCreateViewHolder", "1")
 
         return ArticleViewHolder(binding)
-    }
-
-    suspend fun query(articleCollection: ArticleCollection): Int {
-        return articleCollectionDao.querArticle(articleCollection.articleid)
-    }
-
-    suspend fun gengxin(
-        dohave: Int,
-        articleCollection: ArticleCollection,
-        holder: ArticleViewHolder,
-    ) {
-        if (dohave == 1) {
-            //已经收藏了,这里是删除
-            var iddel: Int? = articleCollectionDao.deleteArticle(articleCollection.articleid)
-            LogUtil.d(
-                "ArticlePagingAdapter",
-                "用户删除的id: " + iddel + articleCollection.articletitle
-            )
-            //在这里进行不收藏图标更新
-            holder.collection.setImageResource(R.drawable.ic_un_collect)
-
-        } else {
-            //还没有收藏,这里是添加
-            var idadd: Long? = articleCollectionDao.insertArticle(articleCollection)
-            LogUtil.d(
-                "ArticlePagingAdapter",
-                "用户收藏的id: " + idadd + articleCollection.articletitle
-            )
-            //在这里进行收藏图标更新
-            holder.collection.setImageResource(R.drawable.ic_collect)
-
-        }
-    }
-
-    var mPosition: Int? = null
-
-    public fun getPosition(): Int {
-        return mPosition!!
-    }
-
-    public fun setPosition(mPosition: Int) {
-        this.mPosition = mPosition
     }
 
 }

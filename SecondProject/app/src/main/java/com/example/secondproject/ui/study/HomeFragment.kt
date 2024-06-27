@@ -53,8 +53,6 @@ class HomeFragment : Fragment() {
         initBanner(homeViewModel)
         initArticle(homeViewModel)
 
-
-
         return root
     }
 
@@ -62,7 +60,6 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
         //在这里进行room数据库的放入存到外存中
-
     }
 
     //轮播图的初始化及其使用
@@ -111,7 +108,7 @@ class HomeFragment : Fragment() {
 
             val layoutManager = LinearLayoutManager(activity)
             binding.articlerecycleview.layoutManager = layoutManager
-            val articlePagingAdapter = ArticlePagingAdapter(requireActivity(), articlelistroom,articleCollectionDao!!)
+            val articlePagingAdapter = ArticlePagingAdapter(articleCollectionDao!!)
             binding.articlerecycleview.adapter = articlePagingAdapter
             //这里是点击了文章后面的回调
             articlePagingAdapter.setOnItemClickListener(object : OnItemClickListener{

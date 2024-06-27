@@ -46,5 +46,4 @@ class BannerAdapter(val banner: Banner, val activity: Activity)
             activity.startActivity(intent)
         }
     }
-
 }

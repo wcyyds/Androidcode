@@ -15,7 +15,6 @@ abstract class ArticleDatabase : RoomDatabase() {
 
         private var instance: ArticleDatabase? = null
 
-
         @Synchronized
         fun getDatabase(context: Context): ArticleDatabase {
             instance?.let {

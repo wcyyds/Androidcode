@@ -14,8 +14,6 @@ class WebViewFragment(val url: String) : Fragment() {
 
     private var _binding: FragmentWebViewBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -32,8 +30,6 @@ class WebViewFragment(val url: String) : Fragment() {
         webView.webViewClient = WebViewClient()
         webView.loadUrl(url)
 
-
-        // Inflate the layout for this fragment
         return root
     }
 
@@ -41,6 +37,5 @@ class WebViewFragment(val url: String) : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 
 }
